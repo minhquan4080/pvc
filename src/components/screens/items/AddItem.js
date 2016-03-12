@@ -3,7 +3,8 @@ import React, {Component} from 'react-native';
 const {
   View,
   StyleSheet,
-  Text
+  Text,
+  TextInput
 } = React;
 
 import ButtonValue from './../../common/ButtonValue';
@@ -42,6 +43,16 @@ const styles = StyleSheet.create({
     height: 50,
     marginLeft: 50,
     flexDirection: 'row'
+  },
+  defaultTextIput: {
+    height: 30,
+    width: 60,
+    borderColor: '#333',
+    borderWidth: 1,
+    padding: 5,
+    backgroundColor: '#FFFFFF50',
+    color: '#333',
+    marginTop: 10
   }
 });
 
@@ -49,7 +60,7 @@ class AddItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataSize: null
+      dataSize: 0
     };
   }
 
@@ -58,10 +69,11 @@ class AddItem extends Component {
   }
 
   _handleSelect(prefix, val, dataValue) {
+    console.log(this.state.dataSize);
     switch (prefix) {
       case prefixSttSize:
         var status = (this.state[prefix + val] === 0) ? 1 : 0;
-        var value = (this.state[prefix + val] === 0) ? dataValue : null;
+        var value = (this.state[prefix + val] === 0) ? dataValue : 0;
         this._setDataStatusSize();
         break;
     }
@@ -93,6 +105,7 @@ class AddItem extends Component {
               <ButtonValue onPress={this._handleSelect.bind(this, prefixSttSize, 3, 1.5)} dataStatus={this.state[prefixSttSize + 3]} dataValue={1.5} />
               <ButtonValue onPress={this._handleSelect.bind(this, prefixSttSize, 4, 1.6)} dataStatus={this.state[prefixSttSize + 4]} dataValue={1.6} />
               <ButtonValue onPress={this._handleSelect.bind(this, prefixSttSize, 5, 1.8)} dataStatus={this.state[prefixSttSize + 5]} dataValue={1.8} />
+              <TextInput keyboardType='default' style={[styles.defaultTextIput, {marginBottom: 10}]} placeholder='2' placeholderTextColor='#333' onChangeText={(dataSize) => this.setState({dataSize: parseInt(dataSize)})}/>
             </View>
           </View>
         </View>
