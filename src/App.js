@@ -12,9 +12,10 @@ const {
 } = React;
 
 import Home from './components/screens/home/Home';
+import AddItem from './components/screens/items/AddItem';
 import commonStyles from './components/styles';
 import {
-  HOME
+  ADD_ITEM
 } from './constants/screens';
 
 const styles = StyleSheet.create({
@@ -37,6 +38,9 @@ class App extends Component {
       case 'HomeScreen':
         ScreenComponent = Home;
         break;
+      case 'AddItemScreen':
+        ScreenComponent = AddItem;
+        break;
     }
     if (ScreenComponent) {
       return <ScreenComponent navigator={nav} data={route.data}/>;
@@ -47,7 +51,7 @@ class App extends Component {
     return (
         <View style={commonStyles.container}>
           <Navigator style={styles.navContainer}
-                     initialRoute={{ id: HOME }}
+                     initialRoute={{ id: ADD_ITEM }}
                      renderScene={this.renderScene}
           />
         </View>

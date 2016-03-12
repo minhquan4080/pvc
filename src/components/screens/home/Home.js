@@ -108,7 +108,7 @@ class Home extends Component {
   }
 
   _onPressBtnAddItem() {
-    console.log('_onPressBtnAddItem');
+    this.props.navigator.replace({id: 'AddItemScreen'});
   }
 
   _onPressBtnSellItem() {
