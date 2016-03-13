@@ -20,11 +20,13 @@ import {
   COLOR_COLOR
 } from './../../../constants/colors';
 import {
-  ADD_ITEM
+  ADD_ITEM,
+  HOME
 } from './../../../constants/screens';
 
 const DB = {
-  'insert': Store.model('insert')
+  'insert': Store.model('insert'),
+  'items': Store.model('items')
 };
 const prefixSttSize = 'dataSize';
 const prefixSttWidth = 'dataWidth';
@@ -149,13 +151,13 @@ class ConfirmAddItem extends Component {
       dataColor: 0,
       dataQty: '0'
     };
-    DB.insert.findById(1).then((resp) => this.setState(resp));
   }
 
   componentDidMount() {
     this._setDataStatusSize();
     this._setDataStatusWidth();
     this._setDataStatusColor();
+    DB.insert.findById(1).then((resp) => this.setState(resp));
   }
 
   _setDataStatusSize() {
@@ -204,7 +206,17 @@ class ConfirmAddItem extends Component {
           [{text: 'OK', onPress: () => console.log('OK')}]
       );
     } else {
-      console.log('Redirect to confirm');
+      console.log('Add item into data');
+      var objectData = {
+        dataSize: this.state.dataSize,
+        dataWidth: this.state.dataWidth,
+        dataColor: this.state.dataColor,
+        dataQty: this.state.dataQty
+      };
+      console.log(objectData);
+      DB.insert.removeById(1);
+      DB.items.add(objectData);
+      this.props.navigator.replace({id: HOME});
     }
   }
 

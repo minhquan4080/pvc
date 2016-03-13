@@ -13,10 +13,11 @@ const {
 
 import Home from './components/screens/home/Home';
 import AddItem from './components/screens/items/AddItem';
+import SellItem from './components/screens/items/SellItem';
 import ConfirmAddItem from './components/screens/items/ConfirmAddItem';
 import commonStyles from './components/styles';
 import {
-  ADD_ITEM
+  HOME
 } from './constants/screens';
 
 const styles = StyleSheet.create({
@@ -32,7 +33,6 @@ const styles = StyleSheet.create({
 });
 
 class App extends Component {
-
   renderScene(route, nav) {
     var ScreenComponent = null;
     switch (route.id) {
@@ -45,6 +45,9 @@ class App extends Component {
       case 'ConfirmAddItemScreen':
         ScreenComponent = ConfirmAddItem;
         break;
+      case 'SellItemScreen':
+        ScreenComponent = SellItem;
+        break;
     }
     if (ScreenComponent) {
       return <ScreenComponent navigator={nav} data={route.data}/>;
@@ -55,7 +58,7 @@ class App extends Component {
     return (
         <View style={commonStyles.container}>
           <Navigator style={styles.navContainer}
-                     initialRoute={{ id: ADD_ITEM }}
+                     initialRoute={{ id: HOME }}
                      renderScene={this.renderScene}
           />
         </View>

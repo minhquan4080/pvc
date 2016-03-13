@@ -8,15 +8,20 @@ const {
   TouchableOpacity
 } = React;
 
+import Store from 'react-native-store';
 import bg from '../../img/background.jpg';
 import arrow from '../../img/arrow64.png';
 import smallArrow from '../../img/right-arrow.png';
 import { H1 } from './../../common/Heading';
 import Dimensions from 'Dimensions';
 import {
-  ADD_ITEM
+  ADD_ITEM,
+  SELL_ITEM
 } from './../../../constants/screens';
 
+const DB = {
+  'items': Store.model('items')
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1
@@ -108,6 +113,7 @@ class Home extends Component {
 
   _onPressBtnCheckQty() {
     console.log('_onPressBtnCheckQty');
+    DB.items.find().then((resp) => console.log(resp));
   }
 
   _onPressBtnAddItem() {
@@ -116,6 +122,7 @@ class Home extends Component {
 
   _onPressBtnSellItem() {
     console.log('_onPressBtnSellItem');
+    this.props.navigator.replace({id: SELL_ITEM});
   }
 
   _onPressBtnExit() {
@@ -134,7 +141,7 @@ class Home extends Component {
 
   _renderCheckWeight() {
     return (
-      <TouchableOpacity style={styles.checkWeight} onPress={this._onPressBtnCheckQty.bind(this)}>
+      <TouchableOpacity style={styles.checkWeight} onPress={this._onPressBtnCheckWeight.bind(this)}>
         <View>
           <Text style={[styles.checkWeightTitle, {marginLeft: 10}]}>KIỂM TRA</Text>
           <View style={{flex: 1}}/>
@@ -146,7 +153,7 @@ class Home extends Component {
 
   _renderCheckQty() {
     return (
-      <TouchableOpacity style={styles.circleButton} onPress={this._onPressBtnCheckWeight.bind(this)}>
+      <TouchableOpacity style={styles.circleButton} onPress={this._onPressBtnCheckQty.bind(this)}>
         <Text>KIỂM TRA SỐ</Text>
         <View style={{flex: 1}}/>
         <Text>LƯỢNG</Text>
