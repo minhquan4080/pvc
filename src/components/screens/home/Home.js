@@ -20,6 +20,8 @@ import {
 } from './../../../constants/screens';
 
 const DB = {
+  'insert': Store.model('insert'),
+  'sellitem': Store.model('sellitem'),
   'items': Store.model('items')
 };
 const styles = StyleSheet.create({

@@ -20,12 +20,12 @@ import {
   COLOR_COLOR
 } from './../../../constants/colors';
 import {
-  ADD_ITEM,
+  SELL_ITEM,
   HOME
 } from './../../../constants/screens';
 
 const DB = {
-  'insert': Store.model('insert'),
+  'sellitem': Store.model('sellitem'),
   'items': Store.model('items')
 };
 const prefixSttSize = 'dataSize';
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class ConfirmAddItem extends Component {
+class ConfirmSellItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -157,7 +157,7 @@ class ConfirmAddItem extends Component {
     this._setDataStatusSize();
     this._setDataStatusWidth();
     this._setDataStatusColor();
-    DB.insert.findById(1).then((resp) => this.setState(resp));
+    DB.sellitem.findById(1).then((resp) => this.setState(resp));
   }
 
   _setDataStatusSize() {
@@ -206,20 +206,37 @@ class ConfirmAddItem extends Component {
           [{text: 'OK', onPress: () => console.log('OK')}]
       );
     } else {
-      console.log('Add item into data');
+      console.log('Remove item from data');
       var objectData = {
         dataSize: this.state.dataSize,
         dataWidth: this.state.dataWidth,
-        dataColor: this.state.dataColor,
-        dataQty: this.state.dataQty
+        dataColor: this.state.dataColor
       };
-      DB.items.add(objectData);
+      var qty = parseInt(this.state.dataQty);
+      DB.items.find({
+        where: {
+          and: [objectData]
+        }
+      }).then(function(res) {
+        if (res !== null) {
+          var resItem = res[0];
+          var currentQty = parseInt(resItem.dataQty);
+          var currentId = resItem._id;
+          if (qty <= currentQty) {
+            var newQty = currentQty - qty;
+            DB.items.updateById({dataQty: newQty}, currentId);
+            console.log('Item has been exits and it will updated');
+          } else {
+            console.log('Item has been exits but qty not enought');
+          }
+        }
+      });
       this.props.navigator.replace({id: HOME});
     }
   }
 
   _handleButtonBack() {
-    this.props.navigator.replace({id: ADD_ITEM});
+    this.props.navigator.replace({id: SELL_ITEM});
   }
 
   _renderSizeContainer() {
@@ -299,7 +316,7 @@ class ConfirmAddItem extends Component {
     return (
         <View>
           <View style={styles.heading}>
-            <Text style={styles.headingTitle}>BẠN ĐÃ NHẬP SẢN PHẨM</Text>
+            <Text style={styles.headingTitle}>BẠN ĐÃ BÁN SẢN PHẨM</Text>
             <TouchableOpacity onPress={this._handleButtonBack.bind(this)} style={styles.btnBack}>
               <Image source={btnBack} resizeMode={Image.resizeMode.contain}/>
             </TouchableOpacity>
@@ -316,6 +333,6 @@ class ConfirmAddItem extends Component {
   }
 }
 
-ConfirmAddItem.propTypes = { navigator: React.PropTypes.instanceOf(React.Navigator) };
+ConfirmSellItem.propTypes = { navigator: React.PropTypes.instanceOf(React.Navigator) };
 
-export default ConfirmAddItem;
+export default ConfirmSellItem;

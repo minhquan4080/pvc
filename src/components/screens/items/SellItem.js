@@ -25,7 +25,7 @@ import {
   CONFIRM_SELL_ITEM
 } from './../../../constants/screens';
 const DB = {
-  'sellitem': Store.model('insert')
+  'sellitem': Store.model('sellitem')
 };
 const prefixSttSize = 'dataSize';
 const prefixSttWidth = 'dataWidth';

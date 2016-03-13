@@ -15,6 +15,7 @@ import Home from './components/screens/home/Home';
 import AddItem from './components/screens/items/AddItem';
 import SellItem from './components/screens/items/SellItem';
 import ConfirmAddItem from './components/screens/items/ConfirmAddItem';
+import ConfirmSellItem from './components/screens/items/ConfirmSellItem';
 import commonStyles from './components/styles';
 import {
   HOME
@@ -47,6 +48,9 @@ class App extends Component {
         break;
       case 'SellItemScreen':
         ScreenComponent = SellItem;
+        break;
+      case 'ConfirmSellItemScreen':
+        ScreenComponent = ConfirmSellItem;
         break;
     }
     if (ScreenComponent) {
