@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     flex: 1,
     position: 'absolute',
     top: 10,
-    left: 0,
+    left: -70,
     width: Dimensions.get('window').width / 1.2,
     alignItems: 'center'
   },

@@ -35,8 +35,6 @@ const styles = StyleSheet.create({
     height: 30,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#2979FF',
-    backgroundColor: '#64B5F6',
     borderRadius: 15,
     marginTop: 10,
     padding: 5,
@@ -61,7 +59,7 @@ class ButtonValue extends Component {
   }
 
   render() {
-    var circleButtonStyle = (this.props.dataStatus === 0) ? styles.circleButton : styles.circleButtonActive;
+    var circleButtonStyle = (this.props.dataStatus === 0) ? styles.circleButton : [styles.circleButtonActive, {backgroundColor: this.props.color}, {borderColor: this.props.color}];
     var circleTextStyle = (this.props.dataStatus === 0) ? styles.circleText : styles.circleTextActive;
     return (
         <View style={styles.container}>
@@ -73,6 +71,6 @@ class ButtonValue extends Component {
   }
 }
 
-ButtonValue.propTypes = { dataValue: React.PropTypes.number, dataStatus: React.PropTypes.number, onPress: React.PropTypes.func };
+ButtonValue.propTypes = { dataValue: React.PropTypes.number, dataStatus: React.PropTypes.number, onPress: React.PropTypes.func, color: React.PropTypes.string };
 
 export default ButtonValue;
