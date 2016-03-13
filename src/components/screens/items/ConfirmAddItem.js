@@ -20,8 +20,7 @@ import {
   COLOR_COLOR
 } from './../../../constants/colors';
 import {
-  HOME,
-  CONFIRM_ADD_ITEM
+  ADD_ITEM
 } from './../../../constants/screens';
 
 const prefixSttSize = 'dataSize';
@@ -138,7 +137,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class AddItem extends Component {
+class ConfirmAddItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -228,12 +227,11 @@ class AddItem extends Component {
       );
     }else {
       console.log('Redirect to confirm');
-      this.props.navigator.replace({id: CONFIRM_ADD_ITEM});
     }
   }
 
   _handleButtonBack() {
-    this.props.navigator.replace({id: HOME});
+    this.props.navigator.replace({id: ADD_ITEM});
   }
 
   _renderSizeContainer() {
@@ -319,7 +317,7 @@ class AddItem extends Component {
     return (
         <View>
           <View style={styles.heading}>
-            <Text style={styles.headingTitle}>NHẬP HÀNG</Text>
+            <Text style={styles.headingTitle}>BẠN ĐÃ NHẬP SẢN PHẨM</Text>
             <TouchableOpacity onPress={this._handleButtonBack.bind(this)} style={styles.btnBack}>
               <Image source={btnBack} resizeMode={Image.resizeMode.contain}/>
             </TouchableOpacity>
@@ -336,6 +334,6 @@ class AddItem extends Component {
   }
 }
 
-AddItem.propTypes = { navigator: React.PropTypes.instanceOf(React.Navigator) };
+ConfirmAddItem.propTypes = { navigator: React.PropTypes.instanceOf(React.Navigator) };
 
-export default AddItem;
+export default ConfirmAddItem;

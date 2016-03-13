@@ -13,6 +13,7 @@ const {
 
 import Home from './components/screens/home/Home';
 import AddItem from './components/screens/items/AddItem';
+import ConfirmAddItem from './components/screens/items/ConfirmAddItem';
 import commonStyles from './components/styles';
 import {
   ADD_ITEM
@@ -40,6 +41,9 @@ class App extends Component {
         break;
       case 'AddItemScreen':
         ScreenComponent = AddItem;
+        break;
+      case 'ConfirmAddItemScreen':
+      ScreenComponent =ConfirmAddItem;
         break;
     }
     if (ScreenComponent) {

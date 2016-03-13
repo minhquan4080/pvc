@@ -13,6 +13,9 @@ import arrow from '../../img/arrow64.png';
 import smallArrow from '../../img/right-arrow.png';
 import { H1 } from './../../common/Heading';
 import Dimensions from 'Dimensions';
+import {
+  ADD_ITEM
+} from './../../../constants/screens';
 
 const styles = StyleSheet.create({
   container: {
@@ -108,7 +111,7 @@ class Home extends Component {
   }
 
   _onPressBtnAddItem() {
-    this.props.navigator.replace({id: 'AddItemScreen'});
+    this.props.navigator.replace({id: ADD_ITEM});
   }
 
   _onPressBtnSellItem() {
