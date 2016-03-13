@@ -43,7 +43,7 @@ class App extends Component {
         ScreenComponent = AddItem;
         break;
       case 'ConfirmAddItemScreen':
-      ScreenComponent =ConfirmAddItem;
+        ScreenComponent = ConfirmAddItem;
         break;
     }
     if (ScreenComponent) {

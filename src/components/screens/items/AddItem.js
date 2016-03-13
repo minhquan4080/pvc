@@ -10,6 +10,7 @@ const {
   Alert
 } = React;
 
+import Store from 'react-native-store';
 import smallArrow from '../../img/right-arrow.png';
 import btnBack from '../../img/btn_back.png';
 import Dimensions from 'Dimensions';
@@ -23,7 +24,9 @@ import {
   HOME,
   CONFIRM_ADD_ITEM
 } from './../../../constants/screens';
-
+const DB = {
+  'insert': Store.model('insert')
+};
 const prefixSttSize = 'dataSize';
 const prefixSttWidth = 'dataWidth';
 const prefixSttColor = 'dataColor';
@@ -226,8 +229,51 @@ class AddItem extends Component {
           'Vui lòng nhập đầy đủ thông tin',
           [{text: 'OK', onPress: () => console.log('OK')}]
       );
-    }else {
+    } else {
       console.log('Redirect to confirm');
+      var object = {
+        dataSize: this.state.dataSize,
+        dataWidth: this.state.dataWidth,
+        dataColor: this.state.dataColor,
+        dataQty: this.state.dataQty,
+        dataSize1: this.state.dataSize1,
+        dataSize2: this.state.dataSize2,
+        dataSize3: this.state.dataSize3,
+        dataSize4: this.state.dataSize4,
+        dataSize5: this.state.dataSize5,
+        dataWidth1: this.state.dataWidth1,
+        dataWidth2: this.state.dataWidth2,
+        dataWidth3: this.state.dataWidth3,
+        dataWidth4: this.state.dataWidth4,
+        dataWidth5: this.state.dataWidth5,
+        dataWidth6: this.state.dataWidth6,
+        dataWidth7: this.state.dataWidth7,
+        dataWidth8: this.state.dataWidth8,
+        dataWidth9: this.state.dataWidth9,
+        dataWidth10: this.state.dataWidth10,
+        dataWidth11: this.state.dataWidth11,
+        dataColor1: this.state.dataColor1,
+        dataColor2: this.state.dataColor2,
+        dataColor3: this.state.dataColor3,
+        dataColor4: this.state.dataColor4,
+        dataColor5: this.state.dataColor5,
+        dataColor6: this.state.dataColor6,
+        dataColor7: this.state.dataColor7,
+        dataColor8: this.state.dataColor8,
+        dataColor9: this.state.dataColor9,
+        dataColor10: this.state.dataColor10,
+        dataColor11: this.state.dataColor11
+      };
+
+      DB.insert.findById(1).then(function(res) {
+        if (res !== null) {
+          DB.insert.updateById(object, 1);
+          console.log('Update');
+        } else {
+          DB.insert.add(object);
+          console.log('Add new');
+        }
+      });
       this.props.navigator.replace({id: CONFIRM_ADD_ITEM});
     }
   }
