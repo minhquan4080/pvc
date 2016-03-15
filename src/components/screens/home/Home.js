@@ -16,7 +16,8 @@ import { H1 } from './../../common/Heading';
 import Dimensions from 'Dimensions';
 import {
   ADD_ITEM,
-  SELL_ITEM
+  SELL_ITEM,
+  CHECK_QUANTITY
 } from './../../../constants/screens';
 
 const DB = {
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     flex: 1,
     position: 'absolute',
     top: 10,
-    left: -70,
+    left: 0,
     width: Dimensions.get('window').width / 1.2,
     alignItems: 'center'
   },
@@ -116,6 +117,7 @@ class Home extends Component {
   _onPressBtnCheckQty() {
     console.log('_onPressBtnCheckQty');
     DB.items.find().then((resp) => console.log(resp));
+    this.props.navigator.replace({id: CHECK_QUANTITY});
   }
 
   _onPressBtnAddItem() {

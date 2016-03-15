@@ -6,12 +6,10 @@ const {
   Text,
   TextInput,
   Image,
-  TouchableOpacity,
-  Alert
+  TouchableOpacity
 } = React;
 
 import Store from 'react-native-store';
-import smallArrow from '../../img/right-arrow.png';
 import btnBack from '../../img/btn_back.png';
 import Dimensions from 'Dimensions';
 import ButtonValue from './../../common/ButtonValue';
@@ -21,11 +19,10 @@ import {
   COLOR_COLOR
 } from './../../../constants/colors';
 import {
-  HOME,
-  CONFIRM_ADD_ITEM
+  HOME
 } from './../../../constants/screens';
 const DB = {
-  'insert': Store.model('insert')
+  'items': Store.model('items')
 };
 const prefixSttSize = 'dataSize';
 const prefixSttWidth = 'dataWidth';
@@ -141,7 +138,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class AddItem extends Component {
+class CheckQuantity extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -182,6 +179,7 @@ class AddItem extends Component {
       [prefix + val]: status,
       [prefix]: value
     });
+    this._applyFilter();
   }
 
   _setDataStatusSize() {
@@ -208,78 +206,30 @@ class AddItem extends Component {
     }
   }
 
-  _handleButtonIncrease() {
-    var current = parseInt(this.state.dataQty);
-    current++;
-    this.setState({dataQty: current.toString()});
-  }
-
-  _handleButtonDecrease() {
-    var current = parseInt(this.state.dataQty);
-    if (current > 0) {
-      current--;
-    }
-    this.setState({dataQty: current.toString()});
-  }
-
-  _handleButtonAddItem() {
-    if (this.state.dataSize === 0 || this.state.dataWidth === 0 || this.state.dataColor === 0 || parseInt(this.state.dataQty) === 0) {
-      Alert.alert(
-          'Lỗi',
-          'Vui lòng nhập đầy đủ thông tin',
-          [{text: 'OK', onPress: () => console.log('OK')}]
-      );
-    } else {
-      console.log('Redirect to confirm');
-      var object = {
-        dataSize: this.state.dataSize,
-        dataWidth: this.state.dataWidth,
-        dataColor: this.state.dataColor,
-        dataQty: this.state.dataQty,
-        dataSize1: this.state.dataSize1,
-        dataSize2: this.state.dataSize2,
-        dataSize3: this.state.dataSize3,
-        dataSize4: this.state.dataSize4,
-        dataSize5: this.state.dataSize5,
-        dataWidth1: this.state.dataWidth1,
-        dataWidth2: this.state.dataWidth2,
-        dataWidth3: this.state.dataWidth3,
-        dataWidth4: this.state.dataWidth4,
-        dataWidth5: this.state.dataWidth5,
-        dataWidth6: this.state.dataWidth6,
-        dataWidth7: this.state.dataWidth7,
-        dataWidth8: this.state.dataWidth8,
-        dataWidth9: this.state.dataWidth9,
-        dataWidth10: this.state.dataWidth10,
-        dataWidth11: this.state.dataWidth11,
-        dataColor1: this.state.dataColor1,
-        dataColor2: this.state.dataColor2,
-        dataColor3: this.state.dataColor3,
-        dataColor4: this.state.dataColor4,
-        dataColor5: this.state.dataColor5,
-        dataColor6: this.state.dataColor6,
-        dataColor7: this.state.dataColor7,
-        dataColor8: this.state.dataColor8,
-        dataColor9: this.state.dataColor9,
-        dataColor10: this.state.dataColor10,
-        dataColor11: this.state.dataColor11
-      };
-
-      DB.insert.findById(1).then(function(res) {
-        if (res !== null) {
-          DB.insert.updateById(object, 1);
-          console.log('Update');
-        } else {
-          DB.insert.add(object);
-          console.log('Add new');
-        }
-      });
-      this.props.navigator.replace({id: CONFIRM_ADD_ITEM});
-    }
-  }
-
   _handleButtonBack() {
     this.props.navigator.replace({id: HOME});
+  }
+
+  _applyFilter() {
+    var objectFilter = {
+      dataSize: this.state.dataSize,
+      dataWidth: this.state.dataWidth,
+      dataColor: this.state.dataColor
+    };
+    console.log(objectFilter);
+    var self = this;
+    DB.items.find({
+      where: {
+        and: [objectFilter]
+      }
+    }).then(function(res) {
+      var qty = '0';
+      if (res !== null) {
+        var result = res[0];
+        qty = result.dataQty.toString();
+      }
+      self.setState({ dataQty: qty });
+    });
   }
 
   _renderSizeContainer() {
@@ -349,14 +299,8 @@ class AddItem extends Component {
   _renderQtyContainer() {
     return (
       <View style={styles.qtyContainer}>
-        <Text style={[styles.labelTitle, {paddingTop: 10}]}>SỐ LƯỢNG</Text>
-        <TextInput keyboardType='numeric' style={[styles.defaultTextIput, {marginTop: 5}]} placeholder='15' placeholderTextColor='#ccc' onChangeText={(dataQty) => this.setState({dataQty: dataQty})} value={this.state.dataQty}/>
-        <TouchableOpacity onPress={this._handleButtonDecrease.bind(this)} style={styles.arrowDecrease}>
-            <Image source={smallArrow} resizeMode={Image.resizeMode.contain}/>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this._handleButtonIncrease.bind(this)} style={styles.arrowIncrease}>
-            <Image source={smallArrow} resizeMode={Image.resizeMode.contain}/>
-        </TouchableOpacity>
+        <Text style={[styles.labelTitle, {paddingTop: 10}]}>SỐ LƯỢNG CÒN LẠI</Text>
+        <TextInput keyboardType='numeric' style={[styles.defaultTextIput, {marginTop: 5}]} placeholder='15' placeholderTextColor='#ccc' value={this.state.dataQty}/>
       </View>
     );
   }
@@ -365,7 +309,7 @@ class AddItem extends Component {
     return (
         <View>
           <View style={styles.heading}>
-            <Text style={styles.headingTitle}>NHẬP HÀNG</Text>
+            <Text style={styles.headingTitle}>KIỂM TRA SỐ LƯỢNG</Text>
             <TouchableOpacity onPress={this._handleButtonBack.bind(this)} style={styles.btnBack}>
               <Image source={btnBack} resizeMode={Image.resizeMode.contain}/>
             </TouchableOpacity>
@@ -374,14 +318,11 @@ class AddItem extends Component {
           {this._renderWidthContainer()}
           {this._renderColorContainer()}
           {this._renderQtyContainer()}
-          <TouchableOpacity onPress={this._handleButtonAddItem.bind(this)} style={styles.btnAddItem}>
-            <Text>NHẬP</Text>
-          </TouchableOpacity>
         </View>
     );
   }
 }
 
-AddItem.propTypes = { navigator: React.PropTypes.instanceOf(React.Navigator) };
+CheckQuantity.propTypes = { navigator: React.PropTypes.instanceOf(React.Navigator) };
 
-export default AddItem;
+export default CheckQuantity;

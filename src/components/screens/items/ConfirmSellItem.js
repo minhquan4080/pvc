@@ -249,7 +249,7 @@ class ConfirmSellItem extends Component {
           <ButtonValue color={SIZE_COLOR} dataStatus={this.state[prefixSttSize + 3]} dataValue={1.5} />
           <ButtonValue color={SIZE_COLOR} dataStatus={this.state[prefixSttSize + 4]} dataValue={1.6} />
           <ButtonValue color={SIZE_COLOR} dataStatus={this.state[prefixSttSize + 5]} dataValue={1.8} />
-          <TextInput keyboardType='numeric' style={[styles.defaultTextIput, {marginBottom: 10}]} placeholder='2.0' placeholderTextColor='#ccc' onChangeText={(dataSize) => this.setState({dataSize: parseInt(dataSize)})} value={this.state.dataSize.toString()}/>
+          <TextInput keyboardType='numeric' style={[styles.defaultTextIput, {marginBottom: 10}]} placeholder='2.0' placeholderTextColor='#ccc' onChangeText={(dataSize) => this.setState({dataSize: parseFloat(dataSize)})} value={this.state.dataSize.toString()}/>
         </View>
       </View>
     );

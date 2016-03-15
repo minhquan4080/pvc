@@ -16,6 +16,7 @@ import AddItem from './components/screens/items/AddItem';
 import SellItem from './components/screens/items/SellItem';
 import ConfirmAddItem from './components/screens/items/ConfirmAddItem';
 import ConfirmSellItem from './components/screens/items/ConfirmSellItem';
+import CheckQuantity from './components/screens/items/CheckQuantity';
 import commonStyles from './components/styles';
 import {
   HOME
@@ -51,6 +52,9 @@ class App extends Component {
         break;
       case 'ConfirmSellItemScreen':
         ScreenComponent = ConfirmSellItem;
+        break;
+      case 'CheckQuantityScreen':
+        ScreenComponent = CheckQuantity;
         break;
     }
     if (ScreenComponent) {

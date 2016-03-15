@@ -292,7 +292,7 @@ class SellItem extends Component {
           <ButtonValue color={SIZE_COLOR} onPress={this._handleSelect.bind(this, prefixSttSize, 3, 1.5)} dataStatus={this.state[prefixSttSize + 3]} dataValue={1.5} />
           <ButtonValue color={SIZE_COLOR} onPress={this._handleSelect.bind(this, prefixSttSize, 4, 1.6)} dataStatus={this.state[prefixSttSize + 4]} dataValue={1.6} />
           <ButtonValue color={SIZE_COLOR} onPress={this._handleSelect.bind(this, prefixSttSize, 5, 1.8)} dataStatus={this.state[prefixSttSize + 5]} dataValue={1.8} />
-          <TextInput keyboardType='numeric' style={[styles.defaultTextIput, {marginBottom: 10}]} placeholder='2.0' placeholderTextColor='#ccc' onChangeText={(dataSize) => this.setState({dataSize: parseInt(dataSize)})}/>
+          <TextInput keyboardType='numeric' style={[styles.defaultTextIput, {marginBottom: 10}]} placeholder='2.0' placeholderTextColor='#ccc' onChangeText={(dataSize) => this.setState({dataSize: parseFloat(dataSize)})}/>
         </View>
       </View>
     );
