@@ -17,9 +17,11 @@ import SellItem from './components/screens/items/SellItem';
 import ConfirmAddItem from './components/screens/items/ConfirmAddItem';
 import ConfirmSellItem from './components/screens/items/ConfirmSellItem';
 import CheckQuantity from './components/screens/items/CheckQuantity';
+import Sum from './components/screens/sum/Sum';
 import commonStyles from './components/styles';
 import {
-  HOME
+  HOME,
+  SUM
 } from './constants/screens';
 
 const styles = StyleSheet.create({
@@ -56,6 +58,9 @@ class App extends Component {
       case 'CheckQuantityScreen':
         ScreenComponent = CheckQuantity;
         break;
+      case 'SumScreen':
+        ScreenComponent = Sum;
+        break;
     }
     if (ScreenComponent) {
       return <ScreenComponent navigator={nav} data={route.data}/>;
@@ -66,7 +71,7 @@ class App extends Component {
     return (
         <View style={commonStyles.container}>
           <Navigator style={styles.navContainer}
-                     initialRoute={{ id: HOME }}
+                     initialRoute={{ id: SUM }}
                      renderScene={this.renderScene}
           />
         </View>

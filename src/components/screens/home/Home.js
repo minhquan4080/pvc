@@ -17,7 +17,8 @@ import Dimensions from 'Dimensions';
 import {
   ADD_ITEM,
   SELL_ITEM,
-  CHECK_QUANTITY
+  CHECK_QUANTITY,
+  SUM
 } from './../../../constants/screens';
 
 const DB = {
@@ -112,6 +113,7 @@ const styles = StyleSheet.create({
 class Home extends Component {
   _onPressBtnCheckWeight() {
     console.log('_onPressBtnCheckWeight');
+    this.props.navigator.replace({id: SUM});
   }
 
   _onPressBtnCheckQty() {
