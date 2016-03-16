@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   mainContainer: {
-    width: Dimensions.get('window').width,
+    width: Dimensions.get('window').width / 1.1,
     height: Dimensions.get('window').height / 1.8,
     borderWidth: 1,
     borderColor: '#333',
@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
   },
   rightContainer: {
     position: 'absolute',
-    right: 10,
-    width: 130,
+    right: 15,
+    width: 140,
     top: 100,
     height: 100,
     borderWidth: 1,
@@ -116,7 +116,8 @@ class Sum extends Component {
     super(props);
     this.state = {
       qty: 0,
-      status: false
+      status: false,
+      sum: 0
     };
   }
 
@@ -137,18 +138,28 @@ class Sum extends Component {
   }
 
   _handleButtonSum() {
+    var sum = 0;
+    var _qty = this.state.qty;
+    for (var i = 1; i <= _qty; i++) {
+      if (typeof this.state[prefixChild + i] !== 'undefined') {
+        sum = sum + this.state[prefixChild + i];
+      }
+    }
+    this.setState({sum: sum, status: true});
+  }
 
-    console.log(this.state)
+  _changeText(num, val) {
+    this.setState({ [prefixChild + num]: parseFloat(val), status: false });
   }
 
   _renderChild() {
-    var _qty = this.state.qty
+    var _qty = this.state.qty;
     var indents = [];
-    for (var i = 1 ; i < _qty; i++) {
-      indents.push (
+    for (var i = 1; i <= _qty; i++) {
+      indents.push(
         <View key={i} style={styles.childContainer}>
           <Text style={styles.defaultText}>NHẬP KHỐI LƯỢNG CÂY {i}</Text>
-          <TextInput keyboardType='numeric' style={[styles.defaultTextIput]} placeholder='15' placeholderTextColor='#ccc' onChangeText={(dataQty) => this.setState({[prefixChild + i]: parseInt(dataQty)})}/>
+          <TextInput keyboardType='numeric' style={[styles.defaultTextIput]} placeholder='15' placeholderTextColor='#ccc' onChangeText={this._changeText.bind(this, i)}/>
         </View>
       );
     }
@@ -162,7 +173,7 @@ class Sum extends Component {
             <Text>NHẬP VÀO SỐ CÂY</Text>
             <TextInput keyboardType='numeric' style={[styles.rightTextIput]} placeholder='15' placeholderTextColor='#ccc' onChangeText={(qty) => this.setState({qty: parseInt(qty)})}/>
             <TouchableOpacity onPress={this._handleButtonSum.bind(this)} style={styles.btnAddItem}>
-              <Text>NHẬP</Text>
+              <Text>TÍNH TỔNG</Text>
             </TouchableOpacity>
         </View>
       );
@@ -170,6 +181,7 @@ class Sum extends Component {
       return (
         <View style={styles.rightContainer}>
           <Text>TỔNG KHỐI LƯỢNG</Text>
+          <TextInput keyboardType='numeric' style={[styles.rightTextIput, {marginTop: 20}]} placeholder='15' placeholderTextColor='#ccc' value={this.state.sum.toString()} />
         </View>
       );
     }

@@ -20,7 +20,7 @@ import CheckQuantity from './components/screens/items/CheckQuantity';
 import Sum from './components/screens/sum/Sum';
 import commonStyles from './components/styles';
 import {
-  SUM
+  HOME
 } from './constants/screens';
 
 const styles = StyleSheet.create({
@@ -70,7 +70,7 @@ class App extends Component {
     return (
         <View style={commonStyles.container}>
           <Navigator style={styles.navContainer}
-                     initialRoute={{ id: SUM }}
+                     initialRoute={{ id: HOME }}
                      renderScene={this.renderScene}
           />
         </View>
