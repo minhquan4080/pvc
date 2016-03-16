@@ -20,7 +20,6 @@ import CheckQuantity from './components/screens/items/CheckQuantity';
 import Sum from './components/screens/sum/Sum';
 import commonStyles from './components/styles';
 import {
-  HOME,
   SUM
 } from './constants/screens';
 

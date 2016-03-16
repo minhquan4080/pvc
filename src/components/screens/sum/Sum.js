@@ -16,6 +16,7 @@ import {
   HOME
 } from './../../../constants/screens';
 
+const prefixChild = 'childContainer';
 const styles = StyleSheet.create({
   container: {
     flex: 1
@@ -67,9 +68,9 @@ const styles = StyleSheet.create({
     position: 'absolute'
   },
   defaultText: {
-    color: '#448AFF',
+    color: '#333',
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: 14,
     marginLeft: 10
   },
   rightContainer: {
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
     top: 20,
     right: 15
   },
-   btnAddItem: {
+  btnAddItem: {
     position: 'absolute',
     bottom: 10,
     right: 15,
@@ -119,21 +120,39 @@ class Sum extends Component {
     };
   }
 
+  componentDidMount() {
+
+  }
+
   _handleButtonBack() {
     this.props.navigator.replace({id: HOME});
   }
 
-  _handleButtonAddItem() {
+  _setChild() {
+    var i = 1;
+    while (i <= this.state.qty) {
+      this.setState({ [prefixChild + i]: 0 });
+      i++;
+    }
+  }
 
+  _handleButtonSum() {
+
+    console.log(this.state)
   }
 
   _renderChild() {
-    return (
-      <View style={styles.childContainer}>
-        <Text style={styles.defaultText}>childContainer</Text>
-        <TextInput keyboardType='numeric' style={[styles.defaultTextIput]} placeholder='15' placeholderTextColor='#ccc' onChangeText={(dataQty) => this.setState({dataQty: dataQty})}/>
-      </View>
-    );
+    var _qty = this.state.qty
+    var indents = [];
+    for (var i = 1 ; i < _qty; i++) {
+      indents.push (
+        <View key={i} style={styles.childContainer}>
+          <Text style={styles.defaultText}>NHẬP KHỐI LƯỢNG CÂY {i}</Text>
+          <TextInput keyboardType='numeric' style={[styles.defaultTextIput]} placeholder='15' placeholderTextColor='#ccc' onChangeText={(dataQty) => this.setState({[prefixChild + i]: parseInt(dataQty)})}/>
+        </View>
+      );
+    }
+    return indents;
   }
 
   _renderRight() {
@@ -141,22 +160,17 @@ class Sum extends Component {
       return (
         <View style={styles.rightContainer}>
             <Text>NHẬP VÀO SỐ CÂY</Text>
-            <TextInput keyboardType='numeric' style={[styles.rightTextIput]} placeholder='15' placeholderTextColor='#ccc' onChangeText={(qty) => this.setState({qty: qty})}/>
-            <TouchableOpacity onPress={this._handleButtonAddItem.bind(this)} style={styles.btnAddItem}>
+            <TextInput keyboardType='numeric' style={[styles.rightTextIput]} placeholder='15' placeholderTextColor='#ccc' onChangeText={(qty) => this.setState({qty: parseInt(qty)})}/>
+            <TouchableOpacity onPress={this._handleButtonSum.bind(this)} style={styles.btnAddItem}>
               <Text>NHẬP</Text>
             </TouchableOpacity>
         </View>
       );
     } else {
       return (
-        if (this.state.status === false) {
-          return (
-            <View style={styles.rightContainer}>
-                <Text>TỔNG KHỐI LƯỢNG</Text>
-
-            </View>
-          );
-        }
+        <View style={styles.rightContainer}>
+          <Text>TỔNG KHỐI LƯỢNG</Text>
+        </View>
       );
     }
   }
