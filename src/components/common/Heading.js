@@ -17,7 +17,7 @@ class BaseHeading extends Component {
     styles: stylePropType,
     labelStyles: labelStylePropType,
     fontSize: React.PropTypes.number
-  }
+  };
 
   constructor(props) {
     super(props);

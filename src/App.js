@@ -4,6 +4,7 @@
  * https://github.com/jhabdas/react-native-webpack-starter-kit
  */
 import React, {Component} from 'react-native';
+import Orientation from 'react-native-orientation';
 
 const {
   Navigator,
@@ -36,6 +37,10 @@ const styles = StyleSheet.create({
 });
 
 class App extends Component {
+  componentWillMount() {
+    Orientation.lockToLandscape();
+  }
+
   renderScene(route, nav) {
     var ScreenComponent = null;
     switch (route.id) {
