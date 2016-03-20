@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   heading: {
     flex: 1,
     position: 'absolute',
-    top: 10,
+    top: 100,
     left: 0,
     width: Dimensions.get('window').width / 1.2,
     alignItems: 'center'
@@ -41,71 +41,79 @@ const styles = StyleSheet.create({
   headingTitle: {
     color: '#FB8C00',
     textAlign: 'center',
-    fontSize: 28
+    fontSize: 36
   },
   checkWeight: {
     flex: 1,
     position: 'absolute',
-    top: 120,
+    top: 350,
     left: 50,
-    width: 120,
-    height: 50,
+    width: 200,
+    height: 100,
     alignItems: 'center',
     borderWidth: 1,
     borderColor: '#81C784',
     backgroundColor: '#81C784',
     borderRadius: 10,
-    padding: 8
+    padding: 30
   },
   checkWeightTitle: {
     fontWeight: 'bold',
-    color: '#FFFFFF'
+    color: '#FFFFFF',
+    fontSize: 18
+  },
+  circleTitle: {
+    fontWeight: 'bold',
+    color: '#333333',
+    fontSize: 18
   },
   circleButton: {
     flex: 1,
     position: 'absolute',
-    top: 30,
-    right: 130,
-    width: 100,
-    height: 100,
+    top: 100,
+    right: 220,
+    width: 200,
+    height: 200,
     alignItems: 'center',
     borderWidth: 1,
     borderColor: '#FB8C00',
     backgroundColor: '#FFFFFF',
-    borderRadius: 50,
-    paddingTop: 35,
-    paddingBottom: 40
+    borderRadius: 100,
+    paddingTop: 60,
+    paddingBottom: 60
   },
   btnExit: {
     flex: 1,
     position: 'absolute',
-    right: 5,
-    top: 10
+    right: 40,
+    top: 40
   },
   btnExitText: {
-    top: -40,
-    left: 10,
+    top: -62,
+    left: 15,
+    fontSize: 24,
+    fontWeight: 'bold',
     color: '#FFFFFF'
   },
   smallArrow1: {
     flex: 1,
     position: 'absolute',
-    right: 120,
-    top: 130,
+    right: 200,
+    top: 320,
     transform: [{rotate: '45deg'}]
   },
   smallArrow2: {
     flex: 1,
     position: 'absolute',
-    right: 170,
-    top: 200,
+    right: 300,
+    top: 500,
     transform: [{rotate: '180deg'}]
   },
   smallArrow3: {
     flex: 1,
     position: 'absolute',
-    right: 210,
-    top: 130,
+    right: 420,
+    top: 320,
     transform: [{rotate: '135deg'}]
   }
 });
@@ -160,25 +168,25 @@ class Home extends Component {
   _renderCheckQty() {
     return (
       <TouchableOpacity style={styles.circleButton} onPress={this._onPressBtnCheckQty.bind(this)}>
-        <Text>KIỂM TRA SỐ</Text>
+        <Text style={styles.circleTitle}>KIỂM TRA SỐ</Text>
         <View style={{flex: 1}}/>
-        <Text>LƯỢNG</Text>
+        <Text style={styles.circleTitle}>LƯỢNG</Text>
       </TouchableOpacity>
     );
   }
 
   _renderAddItem() {
     return (
-      <TouchableOpacity style={[styles.circleButton, {top: 160, right: 220}]} onPress={this._onPressBtnAddItem.bind(this)}>
-        <Text style={{marginTop: 5}}>NHẬP HÀNG</Text>
+      <TouchableOpacity style={[styles.circleButton, {top: 400, right: 400, paddingTop: 90}]} onPress={this._onPressBtnAddItem.bind(this)}>
+        <Text style={[{marginTop: 5}, styles.circleTitle]}>NHẬP HÀNG</Text>
       </TouchableOpacity>
     );
   }
 
   _renderSellItem() {
     return (
-      <TouchableOpacity style={[styles.circleButton, {top: 160, right: 40}]} onPress={this._onPressBtnSellItem.bind(this)}>
-        <Text style={{marginTop: 5}}>BÁN HÀNG</Text>
+      <TouchableOpacity style={[styles.circleButton, {top: 400, right: 40, paddingTop: 90}]} onPress={this._onPressBtnSellItem.bind(this)}>
+        <Text style={[{marginTop: 5}, styles.circleTitle]}>BÁN HÀNG</Text>
       </TouchableOpacity>
     );
   }

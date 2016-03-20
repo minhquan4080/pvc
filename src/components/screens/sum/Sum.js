@@ -22,20 +22,20 @@ const styles = StyleSheet.create({
     flex: 1
   },
   heading: {
-    height: 30,
-    paddingTop: 5,
+    height: 50,
+    paddingTop: 50,
     paddingBottom: 5,
     alignItems: 'center'
   },
   headingTitle: {
     color: '#448AFF',
     textAlign: 'center',
-    fontSize: 18
+    fontSize: 36
   },
   btnBack: {
     position: 'absolute',
-    top: 1,
-    right: 10,
+    top: 50,
+    right: 50,
     alignItems: 'center'
   },
   mainContainer: {
@@ -43,9 +43,10 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height / 1.8,
     borderWidth: 1,
     borderColor: '#333',
-    marginLeft: 10,
-    marginRight: 10,
-    flex: 1
+    marginLeft: 50,
+    marginRight: 50,
+    flex: 1,
+    marginTop: 100
   },
   childContainer: {
     height: 50,
@@ -70,15 +71,15 @@ const styles = StyleSheet.create({
   defaultText: {
     color: '#333',
     textAlign: 'center',
-    fontSize: 14,
+    fontSize: 18,
     marginLeft: 10
   },
   rightContainer: {
     position: 'absolute',
-    right: 15,
-    width: 140,
-    top: 100,
-    height: 100,
+    right: 50,
+    width: 300,
+    top: 150,
+    height: 200,
     borderWidth: 1,
     borderColor: '#333',
     margin: 10,
@@ -86,15 +87,15 @@ const styles = StyleSheet.create({
     padding: 2
   },
   rightTextIput: {
-    height: 30,
-    width: 100,
+    height: 50,
+    width: 260,
     borderColor: '#333',
     borderWidth: 1,
     padding: 5,
     backgroundColor: '#FFFFFF50',
     color: '#333',
     position: 'absolute',
-    top: 20,
+    top: 50,
     right: 15
   },
   btnAddItem: {
@@ -103,10 +104,10 @@ const styles = StyleSheet.create({
     right: 15,
     borderWidth: 1,
     borderColor: '#333',
-    height: 30,
-    width: 100,
+    height: 50,
+    width: 260,
     alignItems: 'center',
-    paddingTop: 6
+    paddingTop: 15
   }
 });
 
@@ -170,7 +171,7 @@ class Sum extends Component {
     if (this.state.status === false) {
       return (
         <View style={styles.rightContainer}>
-            <Text>NHẬP VÀO SỐ CÂY</Text>
+            <Text style={{paddingLeft: 80, paddingTop: 20}} >NHẬP VÀO SỐ CÂY</Text>
             <TextInput keyboardType='numeric' style={[styles.rightTextIput]} placeholder='15' placeholderTextColor='#ccc' onChangeText={(qty) => this.setState({qty: parseInt(qty)})}/>
             <TouchableOpacity onPress={this._handleButtonSum.bind(this)} style={styles.btnAddItem}>
               <Text>TÍNH TỔNG</Text>
@@ -180,7 +181,7 @@ class Sum extends Component {
     } else {
       return (
         <View style={styles.rightContainer}>
-          <Text>TỔNG KHỐI LƯỢNG</Text>
+          <Text style={{paddingLeft: 80, paddingTop: 20}}>TỔNG KHỐI LƯỢNG</Text>
           <TextInput keyboardType='numeric' style={[styles.rightTextIput, {marginTop: 20}]} placeholder='15' placeholderTextColor='#ccc' value={this.state.sum.toString()} />
         </View>
       );

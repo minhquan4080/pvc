@@ -37,14 +37,14 @@ const styles = StyleSheet.create({
   },
   heading: {
     height: 30,
-    paddingTop: 5,
-    paddingBottom: 5,
+    paddingTop: 50,
+    paddingBottom: 50,
     alignItems: 'center'
   },
   headingTitle: {
     color: '#448AFF',
     textAlign: 'center',
-    fontSize: 18
+    fontSize: 36
   },
   sizeContainer: {
     borderWidth: 1,
@@ -52,7 +52,8 @@ const styles = StyleSheet.create({
     height: 50,
     marginLeft: 10,
     marginRight: 10,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginTop: 50
   },
   widthContainer: {
     borderWidth: 1,
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     flexDirection: 'row',
-    marginTop: 5
+    marginTop: 50
   },
   qtyContainer: {
     width: Dimensions.get('window').width / 1.3,
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     flexDirection: 'row',
-    marginTop: 5
+    marginTop: 50
   },
   labelTitle: {
     color: '#333',
@@ -124,18 +125,18 @@ const styles = StyleSheet.create({
   },
   btnSellItem: {
     position: 'absolute',
-    bottom: 5,
+    bottom: 0,
     right: 10,
     borderWidth: 1,
     borderColor: '#333',
-    height: 30,
-    width: 60,
+    height: 50,
+    width: 100,
     alignItems: 'center',
-    paddingTop: 6
+    paddingTop: 15
   },
   btnBack: {
     position: 'absolute',
-    top: 1,
+    top: 50,
     right: 10,
     alignItems: 'center'
   }
