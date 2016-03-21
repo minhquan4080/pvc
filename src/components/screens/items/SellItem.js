@@ -187,7 +187,7 @@ class SellItem extends Component {
       );
     } else {
       console.log('Redirect to confirm');
-       var object = {
+      var object = {
         dataSize: this.state.dataSize,
         dataWidth: this.state.dataWidth,
         dataColor: this.state.dataColor,

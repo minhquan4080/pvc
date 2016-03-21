@@ -25,9 +25,6 @@ import {
 const DB = {
   'items': Store.model('items')
 };
-const prefixSttSize = 'dataSize';
-const prefixSttWidth = 'dataWidth';
-const prefixSttColor = 'dataColor';
 
 const styles = StyleSheet.create({
   container: {

@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   heading: {
     flex: 1,
     position: 'absolute',
-    top: 150,
+    top: 50,
     left: 0,
     width: Dimensions.get('window').width / 1.2,
     alignItems: 'center'
