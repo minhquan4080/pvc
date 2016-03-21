@@ -1,6 +1,7 @@
 import React, {Component} from 'react-native';
 
 const {
+  ScrollView,
   View,
   StyleSheet,
   Text,
@@ -37,14 +38,14 @@ const styles = StyleSheet.create({
   },
   heading: {
     height: 30,
-    paddingTop: 50,
-    paddingBottom: 50,
+    paddingTop: 5,
+    paddingBottom: 5,
     alignItems: 'center'
   },
   headingTitle: {
     color: '#448AFF',
     textAlign: 'center',
-    fontSize: 36
+    fontSize: 18
   },
   sizeContainer: {
     borderWidth: 1,
@@ -52,7 +53,6 @@ const styles = StyleSheet.create({
     height: 50,
     marginLeft: 10,
     marginRight: 10,
-    marginTop: 50,
     flexDirection: 'row'
   },
   widthContainer: {
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     flexDirection: 'row',
-    marginTop: 50
+    marginTop: 5
   },
   qtyContainer: {
     width: Dimensions.get('window').width / 1.3,
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     flexDirection: 'row',
-    marginTop: 50
+    marginTop: 5
   },
   labelTitle: {
     color: '#333',
@@ -125,18 +125,18 @@ const styles = StyleSheet.create({
   },
   btnAddItem: {
     position: 'absolute',
-    bottom: 0,
+    bottom: 5,
     right: 10,
     borderWidth: 1,
     borderColor: '#333',
-    height: 50,
-    width: 100,
+    height: 30,
+    width: 60,
     alignItems: 'center',
-    paddingTop: 15
+    paddingTop: 6
   },
   btnBack: {
     position: 'absolute',
-    top: 50,
+    top: 1,
     right: 10,
     alignItems: 'center'
   }
@@ -153,59 +153,20 @@ class AddItem extends Component {
     };
   }
 
-  componentDidMount() {
-    this._setDataStatusSize();
-    this._setDataStatusWidth();
-    this._setDataStatusColor();
-  }
-
-  _handleSelect(prefix, val, dataValue) {
+  _handleSelect(type, val) {
     var status = null;
     var value = null;
-    switch (prefix) {
-      case prefixSttSize:
-        status = (this.state[prefix + val] === 0) ? 1 : 0;
-        value = (this.state[prefix + val] === 0) ? dataValue : 0;
-        this._setDataStatusSize();
+    switch (type) {
+      case 'WIDTH':
+        this.setState({dataWidth: val});
         break;
-      case prefixSttWidth:
-        status = (this.state[prefix + val] === 0) ? 1 : 0;
-        value = (this.state[prefix + val] === 0) ? dataValue : 0;
-        this._setDataStatusWidth();
+      case 'SIZE':
+        this.setState({dataSize: val});
         break;
-      case prefixSttColor:
-        status = (this.state[prefix + val] === 0) ? 1 : 0;
-        value = (this.state[prefix + val] === 0) ? dataValue : 0;
-        this._setDataStatusColor();
+      case 'COLOR':
+        this.setState({dataColor: val});
+        // this._setDataStatusColor();
         break;
-    }
-    this.setState({
-      [prefix + val]: status,
-      [prefix]: value
-    });
-  }
-
-  _setDataStatusSize() {
-    var i = 1;
-    while (i <= 5) {
-      this.setState({ [prefixSttSize + i]: 0 });
-      i++;
-    }
-  }
-
-  _setDataStatusWidth() {
-    var i = 1;
-    while (i <= 11) {
-      this.setState({ [prefixSttWidth + i]: 0 });
-      i++;
-    }
-  }
-
-  _setDataStatusColor() {
-    var i = 1;
-    while (i <= 11) {
-      this.setState({ [prefixSttColor + i]: 0 });
-      i++;
     }
   }
 
@@ -236,47 +197,27 @@ class AddItem extends Component {
         dataSize: this.state.dataSize,
         dataWidth: this.state.dataWidth,
         dataColor: this.state.dataColor,
-        dataQty: this.state.dataQty,
-        dataSize1: this.state.dataSize1,
-        dataSize2: this.state.dataSize2,
-        dataSize3: this.state.dataSize3,
-        dataSize4: this.state.dataSize4,
-        dataSize5: this.state.dataSize5,
-        dataWidth1: this.state.dataWidth1,
-        dataWidth2: this.state.dataWidth2,
-        dataWidth3: this.state.dataWidth3,
-        dataWidth4: this.state.dataWidth4,
-        dataWidth5: this.state.dataWidth5,
-        dataWidth6: this.state.dataWidth6,
-        dataWidth7: this.state.dataWidth7,
-        dataWidth8: this.state.dataWidth8,
-        dataWidth9: this.state.dataWidth9,
-        dataWidth10: this.state.dataWidth10,
-        dataWidth11: this.state.dataWidth11,
-        dataColor1: this.state.dataColor1,
-        dataColor2: this.state.dataColor2,
-        dataColor3: this.state.dataColor3,
-        dataColor4: this.state.dataColor4,
-        dataColor5: this.state.dataColor5,
-        dataColor6: this.state.dataColor6,
-        dataColor7: this.state.dataColor7,
-        dataColor8: this.state.dataColor8,
-        dataColor9: this.state.dataColor9,
-        dataColor10: this.state.dataColor10,
-        dataColor11: this.state.dataColor11
+        dataQty: this.state.dataQty
       };
 
-      DB.insert.findById(1).then(function(res) {
+      DB.insert.findById(1).then((res) => {
         if (res !== null) {
-          DB.insert.updateById(object, 1);
+          DB.insert.updateById(object, 1).then(() => {
+            this._goToConfirm();
+          });;
           console.log('Update');
         } else {
-          DB.insert.add(object);
+          DB.insert.add(object).then(() => {
+            this._goToConfirm();
+          });;
           console.log('Add new');
         }
       });
-      this.props.navigator.replace({id: CONFIRM_ADD_ITEM});
     }
+  }
+
+  _goToConfirm() {
+    this.props.navigator.replace({id: CONFIRM_ADD_ITEM});
   }
 
   _handleButtonBack() {
@@ -284,15 +225,18 @@ class AddItem extends Component {
   }
 
   _renderSizeContainer() {
+    const arr = [1.2, 1.4, 1.5, 1.6, 1.8];
+    const dataSize = this.state.dataSize;
     return (
       <View style={styles.sizeContainer}>
         <Text style={styles.labelTitle}>KHỔ</Text>
         <View style={styles.rowInput}>
-          <ButtonValue color={SIZE_COLOR} onPress={this._handleSelect.bind(this, prefixSttSize, 1, 1.2)} dataStatus={this.state[prefixSttSize + 1]} dataValue={1.2} />
-          <ButtonValue color={SIZE_COLOR} onPress={this._handleSelect.bind(this, prefixSttSize, 2, 1.4)} dataStatus={this.state[prefixSttSize + 2]} dataValue={1.4} />
-          <ButtonValue color={SIZE_COLOR} onPress={this._handleSelect.bind(this, prefixSttSize, 3, 1.5)} dataStatus={this.state[prefixSttSize + 3]} dataValue={1.5} />
-          <ButtonValue color={SIZE_COLOR} onPress={this._handleSelect.bind(this, prefixSttSize, 4, 1.6)} dataStatus={this.state[prefixSttSize + 4]} dataValue={1.6} />
-          <ButtonValue color={SIZE_COLOR} onPress={this._handleSelect.bind(this, prefixSttSize, 5, 1.8)} dataStatus={this.state[prefixSttSize + 5]} dataValue={1.8} />
+          {(() => {
+            return arr.map((nbr) => {
+              const status = nbr === dataSize ? 1 : 0;
+              return (<ButtonValue key={nbr} color={WIDTH_COLOR} onPress={this._handleSelect.bind(this, 'SIZE', nbr)} dataStatus={status} dataValue={nbr} />);
+            });
+          })()}
           <TextInput keyboardType='numeric' style={[styles.defaultTextIput, {marginBottom: 10}]} placeholder='2.0' placeholderTextColor='#ccc' onChangeText={(dataSize) => this.setState({dataSize: parseFloat(dataSize)})}/>
         </View>
       </View>
@@ -300,23 +244,27 @@ class AddItem extends Component {
   }
 
   _renderWidthContainer() {
+    const arr = [5, 6, 7, 8, 9, 10];
+    const arr2 = [11, 12, 15, 20, 50];
+    const dataWidth = this.state.dataWidth;
     return (
       <View style={styles.widthContainer}>
         <Text style={styles.labelBlockTitle}>ĐỘ DÀY</Text>
         <View style={[styles.rowInput, {marginLeft: 60}]}>
-          <ButtonValue color={WIDTH_COLOR} onPress={this._handleSelect.bind(this, prefixSttWidth, 1, 5)} dataStatus={this.state[prefixSttWidth + 1]} dataValue={5} />
-          <ButtonValue color={WIDTH_COLOR} onPress={this._handleSelect.bind(this, prefixSttWidth, 2, 6)} dataStatus={this.state[prefixSttWidth + 2]} dataValue={6} />
-          <ButtonValue color={WIDTH_COLOR} onPress={this._handleSelect.bind(this, prefixSttWidth, 3, 7)} dataStatus={this.state[prefixSttWidth + 3]} dataValue={7} />
-          <ButtonValue color={WIDTH_COLOR} onPress={this._handleSelect.bind(this, prefixSttWidth, 4, 8)} dataStatus={this.state[prefixSttWidth + 4]} dataValue={8} />
-          <ButtonValue color={WIDTH_COLOR} onPress={this._handleSelect.bind(this, prefixSttWidth, 5, 9)} dataStatus={this.state[prefixSttWidth + 5]} dataValue={9} />
-          <ButtonValue color={WIDTH_COLOR} onPress={this._handleSelect.bind(this, prefixSttWidth, 6, 10)} dataStatus={this.state[prefixSttWidth + 6]} dataValue={10} />
+          {(() => {
+            return arr.map((nbr) => {
+              const status = nbr === dataWidth ? 1 : 0;
+              return (<ButtonValue key={nbr} color={WIDTH_COLOR} onPress={this._handleSelect.bind(this, 'WIDTH', nbr)} dataStatus={status} dataValue={nbr} />);
+            });
+          })()}
         </View>
         <View style={styles.rowInput2}>
-          <ButtonValue color={WIDTH_COLOR} onPress={this._handleSelect.bind(this, prefixSttWidth, 7, 11)} dataStatus={this.state[prefixSttWidth + 7]} dataValue={11} />
-          <ButtonValue color={WIDTH_COLOR} onPress={this._handleSelect.bind(this, prefixSttWidth, 8, 12)} dataStatus={this.state[prefixSttWidth + 8]} dataValue={12} />
-          <ButtonValue color={WIDTH_COLOR} onPress={this._handleSelect.bind(this, prefixSttWidth, 9, 15)} dataStatus={this.state[prefixSttWidth + 9]} dataValue={15} />
-          <ButtonValue color={WIDTH_COLOR} onPress={this._handleSelect.bind(this, prefixSttWidth, 10, 20)} dataStatus={this.state[prefixSttWidth + 10]} dataValue={20} />
-          <ButtonValue color={WIDTH_COLOR} onPress={this._handleSelect.bind(this, prefixSttWidth, 11, 50)} dataStatus={this.state[prefixSttWidth + 11]} dataValue={50} />
+          {(() => {
+            return arr2.map((nbr) => {
+              const status = nbr === dataWidth ? 1 : 0;
+              return (<ButtonValue key={nbr} color={WIDTH_COLOR} onPress={this._handleSelect.bind(this, 'WIDTH', nbr)} dataStatus={status} dataValue={nbr} />);
+            });
+          })()}
           <TextInput keyboardType='numeric' style={[styles.defaultTextIput, {marginBottom: 10}]} placeholder='70' placeholderTextColor='#ccc' onChangeText={(dataWidth) => this.setState({dataWidth: parseInt(dataWidth)})}/>
         </View>
       </View>
@@ -324,23 +272,27 @@ class AddItem extends Component {
   }
 
   _renderColorContainer() {
+    const arr = [1, 2, 3, 4, 5, 6];
+    const arr2 = [7, 8, 9, 10, 11];
+    const dataColor = this.state.dataColor;
     return (
       <View style={styles.widthContainer}>
         <Text style={styles.labelBlockTitle}>MÀU SẮC</Text>
         <View style={[styles.rowInput, {marginLeft: 50}]}>
-          <ButtonValue color={COLOR_COLOR} onPress={this._handleSelect.bind(this, prefixSttColor, 1, 1)} dataStatus={this.state[prefixSttColor + 1]} dataValue={1} />
-          <ButtonValue color={COLOR_COLOR} onPress={this._handleSelect.bind(this, prefixSttColor, 2, 2)} dataStatus={this.state[prefixSttColor + 2]} dataValue={2} />
-          <ButtonValue color={COLOR_COLOR} onPress={this._handleSelect.bind(this, prefixSttColor, 3, 3)} dataStatus={this.state[prefixSttColor + 3]} dataValue={3} />
-          <ButtonValue color={COLOR_COLOR} onPress={this._handleSelect.bind(this, prefixSttColor, 4, 4)} dataStatus={this.state[prefixSttColor + 4]} dataValue={4} />
-          <ButtonValue color={COLOR_COLOR} onPress={this._handleSelect.bind(this, prefixSttColor, 5, 5)} dataStatus={this.state[prefixSttColor + 5]} dataValue={5} />
-          <ButtonValue color={COLOR_COLOR} onPress={this._handleSelect.bind(this, prefixSttColor, 6, 6)} dataStatus={this.state[prefixSttColor + 6]} dataValue={6} />
+          {(() => {
+            return arr.map((nbr) => {
+              const status = nbr === dataColor ? 1 : 0;
+              return (<ButtonValue key={nbr} color={COLOR_COLOR} onPress={this._handleSelect.bind(this, 'COLOR', nbr)} dataStatus={status} dataValue={nbr} />);
+            });
+          })()}
         </View>
         <View style={styles.rowInput2}>
-          <ButtonValue color={COLOR_COLOR} onPress={this._handleSelect.bind(this, prefixSttColor, 7, 7)} dataStatus={this.state[prefixSttColor + 7]} dataValue={7} />
-          <ButtonValue color={COLOR_COLOR} onPress={this._handleSelect.bind(this, prefixSttColor, 8, 8)} dataStatus={this.state[prefixSttColor + 8]} dataValue={8} />
-          <ButtonValue color={COLOR_COLOR} onPress={this._handleSelect.bind(this, prefixSttColor, 9, 9)} dataStatus={this.state[prefixSttColor + 9]} dataValue={9} />
-          <ButtonValue color={COLOR_COLOR} onPress={this._handleSelect.bind(this, prefixSttColor, 10, 10)} dataStatus={this.state[prefixSttColor + 10]} dataValue={10} />
-          <ButtonValue color={COLOR_COLOR} onPress={this._handleSelect.bind(this, prefixSttColor, 11, 11)} dataStatus={this.state[prefixSttColor + 11]} dataValue={11} />
+          {(() => {
+            return arr2.map((nbr) => {
+              const status = nbr === dataColor ? 1 : 0;
+              return (<ButtonValue key={nbr} color={COLOR_COLOR} onPress={this._handleSelect.bind(this, 'COLOR', nbr)} dataStatus={status} dataValue={nbr} />);
+            });
+          })()}
           <TextInput keyboardType='numeric' style={[styles.defaultTextIput, {marginBottom: 10}]} placeholder='15' placeholderTextColor='#ccc' onChangeText={(dataColor) => this.setState({dataColor: parseInt(dataColor)})}/>
         </View>
       </View>
@@ -364,7 +316,7 @@ class AddItem extends Component {
 
   render() {
     return (
-        <View>
+        <ScrollView>
           <View style={styles.heading}>
             <Text style={styles.headingTitle}>NHẬP HÀNG</Text>
             <TouchableOpacity onPress={this._handleButtonBack.bind(this)} style={styles.btnBack}>
@@ -376,9 +328,9 @@ class AddItem extends Component {
           {this._renderColorContainer()}
           {this._renderQtyContainer()}
           <TouchableOpacity onPress={this._handleButtonAddItem.bind(this)} style={styles.btnAddItem}>
-            <Text style={{fontWeight: 'bold'}}>NHẬP</Text>
+            <Text>NHẬP</Text>
           </TouchableOpacity>
-        </View>
+        </ScrollView>
     );
   }
 }
