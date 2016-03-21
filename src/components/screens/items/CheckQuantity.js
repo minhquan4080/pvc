@@ -121,16 +121,16 @@ const styles = StyleSheet.create({
     position: 'absolute',
     transform: [{rotate: '270deg'}]
   },
-  btnAddItem: {
+  btnApplyFilter: {
     position: 'absolute',
-    bottom: 5,
+    bottom: 0,
     right: 10,
     borderWidth: 1,
     borderColor: '#333',
-    height: 30,
-    width: 60,
+    height: 50,
+    width: 100,
     alignItems: 'center',
-    paddingTop: 6
+    paddingTop: 15
   },
   btnBack: {
     position: 'absolute',
@@ -151,12 +151,6 @@ class CheckQuantity extends Component {
     };
   }
 
-  componentDidMount() {
-    this._setDataStatusSize();
-    this._setDataStatusWidth();
-    this._setDataStatusColor();
-  }
-
   _handleSelect(type, val) {
     switch (type) {
       case 'WIDTH':
@@ -168,30 +162,6 @@ class CheckQuantity extends Component {
       case 'COLOR':
         this.setState({dataColor: val});
         break;
-    }
-  }
-
-  _setDataStatusSize() {
-    var i = 1;
-    while (i <= 5) {
-      this.setState({ [prefixSttSize + i]: 0 });
-      i++;
-    }
-  }
-
-  _setDataStatusWidth() {
-    var i = 1;
-    while (i <= 11) {
-      this.setState({ [prefixSttWidth + i]: 0 });
-      i++;
-    }
-  }
-
-  _setDataStatusColor() {
-    var i = 1;
-    while (i <= 11) {
-      this.setState({ [prefixSttColor + i]: 0 });
-      i++;
     }
   }
 
@@ -217,6 +187,7 @@ class CheckQuantity extends Component {
         var result = res[0];
         qty = result.dataQty.toString();
       }
+      console.log(qty);
       self.setState({ dataQty: qty });
     });
   }
@@ -318,6 +289,9 @@ class CheckQuantity extends Component {
           {this._renderWidthContainer()}
           {this._renderColorContainer()}
           {this._renderQtyContainer()}
+          <TouchableOpacity onPress={this._applyFilter.bind(this)} style={styles.btnApplyFilter}>
+            <Text>KIỂM TRA</Text>
+          </TouchableOpacity>
         </ScrollView>
     );
   }

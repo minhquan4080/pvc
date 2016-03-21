@@ -2,6 +2,7 @@ import React, {Component} from 'react-native';
 
 const {
   View,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -35,14 +36,14 @@ const styles = StyleSheet.create({
   },
   heading: {
     height: 30,
-    paddingTop: 5,
+    paddingTop: 50,
     paddingBottom: 5,
     alignItems: 'center'
   },
   headingTitle: {
     color: '#448AFF',
     textAlign: 'center',
-    fontSize: 18
+    fontSize: 36
   },
   sizeContainer: {
     borderWidth: 1,
@@ -50,6 +51,7 @@ const styles = StyleSheet.create({
     height: 50,
     marginLeft: 10,
     marginRight: 10,
+    marginTop: 100,
     flexDirection: 'row'
   },
   widthContainer: {
@@ -59,17 +61,17 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     flexDirection: 'row',
-    marginTop: 5
+    marginTop: 50
   },
   qtyContainer: {
-    width: Dimensions.get('window').width / 2.7,
+    width: Dimensions.get('window').width / 1.3,
     borderWidth: 1,
     borderColor: '#333',
     height: 40,
     marginLeft: 10,
     marginRight: 10,
     flexDirection: 'row',
-    marginTop: 5
+    marginTop: 50
   },
   labelTitle: {
     color: '#333',
@@ -133,7 +135,7 @@ const styles = StyleSheet.create({
   },
   btnBack: {
     position: 'absolute',
-    top: 1,
+    top: 30,
     right: 10,
     alignItems: 'center'
   }
@@ -183,8 +185,9 @@ class ConfirmAddItem extends Component {
         dataColor: this.state.dataColor,
         dataQty: this.state.dataQty
       };
-      DB.items.add(objectData);
-      this.props.navigator.replace({id: HOME});
+      DB.items.add(objectData).then(() => {
+        this.props.navigator.replace({id: HOME});
+      });
     }
   }
 
@@ -250,7 +253,7 @@ class ConfirmAddItem extends Component {
           {(() => {
             return arr.map((nbr) => {
               const status = nbr === dataColor ? 1 : 0;
-              return <ButtonValue color={COLOR_COLOR} dataStatus={status} dataValue={nbr} />;
+              return <ButtonValue key={nbr} color={COLOR_COLOR} dataStatus={status} dataValue={nbr} />;
             });
           })()}
         </View>
@@ -258,7 +261,7 @@ class ConfirmAddItem extends Component {
           {(() => {
             return arr2.map((nbr) => {
               const status = nbr === dataColor ? 1 : 0;
-              return <ButtonValue color={COLOR_COLOR} dataStatus={status} dataValue={nbr} />;
+              return <ButtonValue key={nbr} color={COLOR_COLOR} dataStatus={status} dataValue={nbr} />;
             });
           })()}
           <TextInput keyboardType='numeric' style={[styles.defaultTextIput, {marginBottom: 10}]} placeholder='15' placeholderTextColor='#ccc' onChangeText={(dataColor) => this.setState({dataColor: parseInt(dataColor)})} value={this.state.dataColor.toString()}/>
@@ -278,7 +281,7 @@ class ConfirmAddItem extends Component {
 
   render() {
     return (
-        <View>
+        <ScrollView>
           <View style={styles.heading}>
             <Text style={styles.headingTitle}>BẠN ĐÃ NHẬP SẢN PHẨM</Text>
             <TouchableOpacity onPress={this._handleButtonBack.bind(this)} style={styles.btnBack}>
@@ -290,9 +293,9 @@ class ConfirmAddItem extends Component {
           {this._renderColorContainer()}
           {this._renderQtyContainer()}
           <TouchableOpacity onPress={this._handleButtonConfirmItem.bind(this)} style={styles.btnConfirmAddItem}>
-            <Text>XÁC NHẬN</Text>
+            <Text style={{fontWeight: 'bold'}}>XÁC NHẬN</Text>
           </TouchableOpacity>
-        </View>
+        </ScrollView>
     );
   }
 }
