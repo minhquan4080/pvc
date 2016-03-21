@@ -71,6 +71,11 @@ class ButtonValue extends Component {
   }
 }
 
-ButtonValue.propTypes = { dataValue: React.PropTypes.number, dataStatus: React.PropTypes.number, onPress: React.PropTypes.func, color: React.PropTypes.string };
+ButtonValue.propTypes = {
+  dataValue: React.PropTypes.number,
+  dataStatus: React.PropTypes.number,
+  onPress: React.PropTypes.func,
+  color: React.PropTypes.string
+};
 
 export default ButtonValue;
