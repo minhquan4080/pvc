@@ -28,9 +28,6 @@ import {
 const DB = {
   'insert': Store.model('insert')
 };
-const prefixSttSize = 'dataSize';
-const prefixSttWidth = 'dataWidth';
-const prefixSttColor = 'dataColor';
 
 const styles = StyleSheet.create({
   container: {
@@ -154,8 +151,6 @@ class AddItem extends Component {
   }
 
   _handleSelect(type, val) {
-    var status = null;
-    var value = null;
     switch (type) {
       case 'WIDTH':
         this.setState({dataWidth: val});
@@ -165,7 +160,6 @@ class AddItem extends Component {
         break;
       case 'COLOR':
         this.setState({dataColor: val});
-        // this._setDataStatusColor();
         break;
     }
   }
@@ -204,12 +198,12 @@ class AddItem extends Component {
         if (res !== null) {
           DB.insert.updateById(object, 1).then(() => {
             this._goToConfirm();
-          });;
+          });
           console.log('Update');
         } else {
           DB.insert.add(object).then(() => {
             this._goToConfirm();
-          });;
+          });
           console.log('Add new');
         }
       });
@@ -254,7 +248,7 @@ class AddItem extends Component {
           {(() => {
             return arr.map((nbr) => {
               const status = nbr === dataWidth ? 1 : 0;
-              return (<ButtonValue key={nbr} color={WIDTH_COLOR} onPress={this._handleSelect.bind(this, 'WIDTH', nbr)} dataStatus={status} dataValue={nbr} />);
+              return (<ButtonValue key={nbr} color={SIZE_COLOR} onPress={this._handleSelect.bind(this, 'WIDTH', nbr)} dataStatus={status} dataValue={nbr} />);
             });
           })()}
         </View>

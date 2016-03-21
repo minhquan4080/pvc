@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   btnBack: {
     position: 'absolute',
-    top: 10,
+    top: 30,
     right: 50,
     alignItems: 'center'
   },

@@ -10,7 +10,6 @@ const {
 
 import Store from 'react-native-store';
 import bg from '../../img/background.jpg';
-import arrow from '../../img/arrow64.png';
 import smallArrow from '../../img/right-arrow.png';
 import { H1 } from './../../common/Heading';
 import Dimensions from 'Dimensions';

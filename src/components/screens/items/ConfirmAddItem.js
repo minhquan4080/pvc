@@ -28,9 +28,6 @@ const DB = {
   'insert': Store.model('insert'),
   'items': Store.model('items')
 };
-const prefixSttSize = 'dataSize';
-const prefixSttWidth = 'dataWidth';
-const prefixSttColor = 'dataColor';
 
 const styles = StyleSheet.create({
   container: {
@@ -156,7 +153,6 @@ class ConfirmAddItem extends Component {
   componentDidMount() {
     DB.insert.findById(1).then((resp) => this.setState(resp));
   }
-
 
   _handleButtonIncrease() {
     var current = parseInt(this.state.dataQty);
