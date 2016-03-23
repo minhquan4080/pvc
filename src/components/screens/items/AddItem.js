@@ -28,9 +28,6 @@ import {
 const DB = {
   'insert': Store.model('insert')
 };
-const prefixSttSize = 'dataSize';
-const prefixSttWidth = 'dataWidth';
-const prefixSttColor = 'dataColor';
 
 const styles = StyleSheet.create({
   container: {
@@ -38,14 +35,14 @@ const styles = StyleSheet.create({
   },
   heading: {
     height: 30,
-    paddingTop: 5,
+    paddingTop: 50,
     paddingBottom: 5,
     alignItems: 'center'
   },
   headingTitle: {
     color: '#448AFF',
     textAlign: 'center',
-    fontSize: 18
+    fontSize: 36
   },
   sizeContainer: {
     borderWidth: 1,
@@ -53,6 +50,7 @@ const styles = StyleSheet.create({
     height: 50,
     marginLeft: 10,
     marginRight: 10,
+    marginTop: 100,
     flexDirection: 'row'
   },
   widthContainer: {
@@ -62,7 +60,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     flexDirection: 'row',
-    marginTop: 5
+    marginTop: 50
   },
   qtyContainer: {
     width: Dimensions.get('window').width / 1.3,
@@ -72,7 +70,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     flexDirection: 'row',
-    marginTop: 5
+    marginTop: 50
   },
   labelTitle: {
     color: '#333',
@@ -129,14 +127,14 @@ const styles = StyleSheet.create({
     right: 10,
     borderWidth: 1,
     borderColor: '#333',
-    height: 30,
-    width: 60,
+    height: 40,
+    width: 100,
     alignItems: 'center',
-    paddingTop: 6
+    paddingTop: 10
   },
   btnBack: {
     position: 'absolute',
-    top: 1,
+    top: 30,
     right: 10,
     alignItems: 'center'
   }
@@ -154,8 +152,6 @@ class AddItem extends Component {
   }
 
   _handleSelect(type, val) {
-    var status = null;
-    var value = null;
     switch (type) {
       case 'WIDTH':
         this.setState({dataWidth: val});
@@ -165,7 +161,6 @@ class AddItem extends Component {
         break;
       case 'COLOR':
         this.setState({dataColor: val});
-        // this._setDataStatusColor();
         break;
     }
   }
@@ -204,12 +199,12 @@ class AddItem extends Component {
         if (res !== null) {
           DB.insert.updateById(object, 1).then(() => {
             this._goToConfirm();
-          });;
+          });
           console.log('Update');
         } else {
           DB.insert.add(object).then(() => {
             this._goToConfirm();
-          });;
+          });
           console.log('Add new');
         }
       });
@@ -234,7 +229,7 @@ class AddItem extends Component {
           {(() => {
             return arr.map((nbr) => {
               const status = nbr === dataSize ? 1 : 0;
-              return (<ButtonValue key={nbr} color={WIDTH_COLOR} onPress={this._handleSelect.bind(this, 'SIZE', nbr)} dataStatus={status} dataValue={nbr} />);
+              return (<ButtonValue key={nbr} color={SIZE_COLOR} onPress={this._handleSelect.bind(this, 'SIZE', nbr)} dataStatus={status} dataValue={nbr} />);
             });
           })()}
           <TextInput keyboardType='numeric' style={[styles.defaultTextIput, {marginBottom: 10}]} placeholder='2.0' placeholderTextColor='#ccc' onChangeText={(dataSize) => this.setState({dataSize: parseFloat(dataSize)})}/>
@@ -328,7 +323,7 @@ class AddItem extends Component {
           {this._renderColorContainer()}
           {this._renderQtyContainer()}
           <TouchableOpacity onPress={this._handleButtonAddItem.bind(this)} style={styles.btnAddItem}>
-            <Text>NHẬP</Text>
+            <Text style={{fontWeight: 'bold'}}>NHẬP</Text>
           </TouchableOpacity>
         </ScrollView>
     );

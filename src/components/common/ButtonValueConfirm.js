@@ -71,6 +71,10 @@ class ButtonValueConfirm extends Component {
   }
 }
 
-ButtonValueConfirm.propTypes = { dataValue: React.PropTypes.number, dataStatus: React.PropTypes.number, onPress: React.PropTypes.func, color: React.PropTypes.string };
+ButtonValueConfirm.propTypes = {
+  dataValue: React.PropTypes.number,
+  dataStatus: React.PropTypes.number,
+  onPress: React.PropTypes.func,
+  color: React.PropTypes.string };
 
 export default ButtonValueConfirm;

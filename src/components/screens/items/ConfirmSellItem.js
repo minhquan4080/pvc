@@ -28,9 +28,6 @@ const DB = {
   'sellitem': Store.model('sellitem'),
   'items': Store.model('items')
 };
-const prefixSttSize = 'dataSize';
-const prefixSttWidth = 'dataWidth';
-const prefixSttColor = 'dataColor';
 
 const styles = StyleSheet.create({
   container: {
@@ -38,14 +35,14 @@ const styles = StyleSheet.create({
   },
   heading: {
     height: 30,
-    paddingTop: 5,
-    paddingBottom: 5,
+    paddingTop: 50,
+    paddingBottom: 50,
     alignItems: 'center'
   },
   headingTitle: {
     color: '#448AFF',
     textAlign: 'center',
-    fontSize: 18
+    fontSize: 36
   },
   sizeContainer: {
     borderWidth: 1,
@@ -53,7 +50,8 @@ const styles = StyleSheet.create({
     height: 50,
     marginLeft: 10,
     marginRight: 10,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginTop: 50
   },
   widthContainer: {
     borderWidth: 1,
@@ -62,7 +60,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     flexDirection: 'row',
-    marginTop: 5
+    marginTop: 50
   },
   qtyContainer: {
     width: Dimensions.get('window').width / 2.7,
@@ -72,7 +70,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     flexDirection: 'row',
-    marginTop: 5
+    marginTop: 50
   },
   labelTitle: {
     color: '#333',
@@ -125,18 +123,18 @@ const styles = StyleSheet.create({
   },
   btnConfirmAddItem: {
     position: 'absolute',
-    bottom: 5,
+    bottom: 0,
     right: 10,
     borderWidth: 1,
     borderColor: '#333',
-    height: 30,
+    height: 40,
     width: 100,
     alignItems: 'center',
-    paddingTop: 6
+    paddingTop: 15
   },
   btnBack: {
     position: 'absolute',
-    top: 1,
+    top: 30,
     right: 10,
     alignItems: 'center'
   }
@@ -154,34 +152,7 @@ class ConfirmSellItem extends Component {
   }
 
   componentDidMount() {
-    this._setDataStatusSize();
-    this._setDataStatusWidth();
-    this._setDataStatusColor();
     DB.sellitem.findById(1).then((resp) => this.setState(resp));
-  }
-
-  _setDataStatusSize() {
-    var i = 1;
-    while (i <= 5) {
-      this.setState({ [prefixSttSize + i]: 0 });
-      i++;
-    }
-  }
-
-  _setDataStatusWidth() {
-    var i = 1;
-    while (i <= 11) {
-      this.setState({ [prefixSttWidth + i]: 0 });
-      i++;
-    }
-  }
-
-  _setDataStatusColor() {
-    var i = 1;
-    while (i <= 11) {
-      this.setState({ [prefixSttColor + i]: 0 });
-      i++;
-    }
   }
 
   _handleButtonIncrease() {
@@ -213,25 +184,33 @@ class ConfirmSellItem extends Component {
         dataColor: this.state.dataColor
       };
       var qty = parseInt(this.state.dataQty);
+      var self = this;
       DB.items.find({
         where: {
           and: [objectData]
         }
       }).then(function(res) {
         if (res !== null) {
+          console.log('remove from database');
           var resItem = res[0];
           var currentQty = parseInt(resItem.dataQty);
           var currentId = resItem._id;
           if (qty <= currentQty) {
+            console.log('qty < current');
             var newQty = currentQty - qty;
-            DB.items.updateById({dataQty: newQty}, currentId);
+            DB.items.updateById({dataQty: newQty}, currentId).then(() => {
+              self.props.navigator.replace({id: HOME});
+            });
             console.log('Item has been exits and it will updated');
           } else {
             console.log('Item has been exits but qty not enought');
+            self.props.navigator.replace({id: HOME});
           }
+        } else {
+          console.log('Not exits item');
+          self.props.navigator.replace({id: HOME});
         }
       });
-      this.props.navigator.replace({id: HOME});
     }
   }
 
@@ -240,15 +219,18 @@ class ConfirmSellItem extends Component {
   }
 
   _renderSizeContainer() {
+    const arr = [1.2, 1.4, 1.5, 1.6, 1.8];
+    const dataSize = this.state.dataSize;
     return (
       <View style={styles.sizeContainer}>
         <Text style={styles.labelTitle}>KHỔ</Text>
         <View style={styles.rowInput}>
-          <ButtonValue color={SIZE_COLOR} dataStatus={this.state[prefixSttSize + 1]} dataValue={1.2} />
-          <ButtonValue color={SIZE_COLOR} dataStatus={this.state[prefixSttSize + 2]} dataValue={1.4} />
-          <ButtonValue color={SIZE_COLOR} dataStatus={this.state[prefixSttSize + 3]} dataValue={1.5} />
-          <ButtonValue color={SIZE_COLOR} dataStatus={this.state[prefixSttSize + 4]} dataValue={1.6} />
-          <ButtonValue color={SIZE_COLOR} dataStatus={this.state[prefixSttSize + 5]} dataValue={1.8} />
+          {(() => {
+            return arr.map((nbr) => {
+              const status = nbr === dataSize ? 1 : 0;
+              return (<ButtonValue key={nbr} color={SIZE_COLOR} dataStatus={status} dataValue={nbr} />);
+            });
+          })()}
           <TextInput keyboardType='numeric' style={[styles.defaultTextIput, {marginBottom: 10}]} placeholder='2.0' placeholderTextColor='#ccc' onChangeText={(dataSize) => this.setState({dataSize: parseFloat(dataSize)})} value={this.state.dataSize.toString()}/>
         </View>
       </View>
@@ -256,23 +238,27 @@ class ConfirmSellItem extends Component {
   }
 
   _renderWidthContainer() {
+    const arr = [5, 6, 7, 8, 9, 10];
+    const arr2 = [11, 12, 15, 20, 50];
+    const dataWidth = this.state.dataWidth;
     return (
       <View style={styles.widthContainer}>
         <Text style={styles.labelBlockTitle}>ĐỘ DÀY</Text>
         <View style={[styles.rowInput, {marginLeft: 60}]}>
-          <ButtonValue color={WIDTH_COLOR} dataStatus={this.state[prefixSttWidth + 1]} dataValue={5} />
-          <ButtonValue color={WIDTH_COLOR} dataStatus={this.state[prefixSttWidth + 2]} dataValue={6} />
-          <ButtonValue color={WIDTH_COLOR} dataStatus={this.state[prefixSttWidth + 3]} dataValue={7} />
-          <ButtonValue color={WIDTH_COLOR} dataStatus={this.state[prefixSttWidth + 4]} dataValue={8} />
-          <ButtonValue color={WIDTH_COLOR} dataStatus={this.state[prefixSttWidth + 5]} dataValue={9} />
-          <ButtonValue color={WIDTH_COLOR} dataStatus={this.state[prefixSttWidth + 6]} dataValue={10} />
+          {(() => {
+            return arr.map((nbr) => {
+              const status = nbr === dataWidth ? 1 : 0;
+              return <ButtonValue key={nbr} color={WIDTH_COLOR} dataStatus={status} dataValue={nbr} />;
+            });
+          })()}
         </View>
         <View style={styles.rowInput2}>
-          <ButtonValue color={WIDTH_COLOR} dataStatus={this.state[prefixSttWidth + 7]} dataValue={11} />
-          <ButtonValue color={WIDTH_COLOR} dataStatus={this.state[prefixSttWidth + 8]} dataValue={12} />
-          <ButtonValue color={WIDTH_COLOR} dataStatus={this.state[prefixSttWidth + 9]} dataValue={15} />
-          <ButtonValue color={WIDTH_COLOR} dataStatus={this.state[prefixSttWidth + 10]} dataValue={20} />
-          <ButtonValue color={WIDTH_COLOR} dataStatus={this.state[prefixSttWidth + 11]} dataValue={50} />
+          {(() => {
+            return arr2.map((nbr) => {
+              const status = nbr === dataWidth ? 1 : 0;
+              return <ButtonValue key={nbr} color={WIDTH_COLOR} dataStatus={status} dataValue={nbr} />;
+            });
+          })()}
           <TextInput keyboardType='numeric' style={[styles.defaultTextIput, {marginBottom: 10}]} placeholder='70' placeholderTextColor='#ccc' onChangeText={(dataWidth) => this.setState({dataWidth: parseInt(dataWidth)})} value={this.state.dataWidth.toString()}/>
         </View>
       </View>
@@ -280,23 +266,27 @@ class ConfirmSellItem extends Component {
   }
 
   _renderColorContainer() {
+    const arr = [1, 2, 3, 4, 5, 6];
+    const arr2 = [7, 8, 9, 10, 11];
+    const dataColor = this.state.dataColor;
     return (
       <View style={styles.widthContainer}>
         <Text style={styles.labelBlockTitle}>MÀU SẮC</Text>
         <View style={[styles.rowInput, {marginLeft: 50}]}>
-          <ButtonValue color={COLOR_COLOR} dataStatus={this.state[prefixSttColor + 1]} dataValue={1} />
-          <ButtonValue color={COLOR_COLOR} dataStatus={this.state[prefixSttColor + 2]} dataValue={2} />
-          <ButtonValue color={COLOR_COLOR} dataStatus={this.state[prefixSttColor + 3]} dataValue={3} />
-          <ButtonValue color={COLOR_COLOR} dataStatus={this.state[prefixSttColor + 4]} dataValue={4} />
-          <ButtonValue color={COLOR_COLOR} dataStatus={this.state[prefixSttColor + 5]} dataValue={5} />
-          <ButtonValue color={COLOR_COLOR} dataStatus={this.state[prefixSttColor + 6]} dataValue={6} />
+          {(() => {
+            return arr.map((nbr) => {
+              const status = nbr === dataColor ? 1 : 0;
+              return <ButtonValue key={nbr} color={COLOR_COLOR} dataStatus={status} dataValue={nbr} />;
+            });
+          })()}
         </View>
         <View style={styles.rowInput2}>
-          <ButtonValue color={COLOR_COLOR} dataStatus={this.state[prefixSttColor + 7]} dataValue={7} />
-          <ButtonValue color={COLOR_COLOR} dataStatus={this.state[prefixSttColor + 8]} dataValue={8} />
-          <ButtonValue color={COLOR_COLOR} dataStatus={this.state[prefixSttColor + 9]} dataValue={9} />
-          <ButtonValue color={COLOR_COLOR} dataStatus={this.state[prefixSttColor + 10]} dataValue={10} />
-          <ButtonValue color={COLOR_COLOR} dataStatus={this.state[prefixSttColor + 11]} dataValue={11} />
+          {(() => {
+            return arr2.map((nbr) => {
+              const status = nbr === dataColor ? 1 : 0;
+              return <ButtonValue key={nbr} color={COLOR_COLOR} dataStatus={status} dataValue={nbr} />;
+            });
+          })()}
           <TextInput keyboardType='numeric' style={[styles.defaultTextIput, {marginBottom: 10}]} placeholder='15' placeholderTextColor='#ccc' onChangeText={(dataColor) => this.setState({dataColor: parseInt(dataColor)})} value={this.state.dataColor.toString()}/>
         </View>
       </View>
@@ -326,7 +316,7 @@ class ConfirmSellItem extends Component {
           {this._renderColorContainer()}
           {this._renderQtyContainer()}
           <TouchableOpacity onPress={this._handleButtonConfirmItem.bind(this)} style={styles.btnConfirmAddItem}>
-            <Text>XÁC NHẬN</Text>
+            <Text style={{fontWeight: 'bold'}}>XÁC NHẬN</Text>
           </TouchableOpacity>
         </View>
     );
