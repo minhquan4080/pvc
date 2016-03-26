@@ -9,7 +9,8 @@ import Orientation from 'react-native-orientation';
 const {
   Navigator,
   StyleSheet,
-  View
+  View,
+  StatusBarIOS
 } = React;
 
 import Home from './components/screens/home/Home';
@@ -39,6 +40,7 @@ const styles = StyleSheet.create({
 class App extends Component {
   componentWillMount() {
     Orientation.lockToLandscape();
+    StatusBarIOS.setHidden(true);
   }
 
   renderScene(route, nav) {
