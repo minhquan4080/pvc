@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     height: 50,
-    paddingTop: 50,
+    paddingTop: 30,
     paddingBottom: 5,
     alignItems: 'center'
   },
@@ -34,19 +34,19 @@ const styles = StyleSheet.create({
   },
   btnBack: {
     position: 'absolute',
-    top: 50,
+    top: 30,
     right: 50,
     alignItems: 'center'
   },
   mainContainer: {
     width: Dimensions.get('window').width / 1.1,
-    height: Dimensions.get('window').height / 1.8,
+    height: Dimensions.get('window').height / 1.9,
     borderWidth: 1,
     borderColor: '#333',
     marginLeft: 50,
     marginRight: 50,
     flex: 1,
-    marginTop: 100
+    marginTop: 10
   },
   childContainer: {
     height: 50,
@@ -77,37 +77,57 @@ const styles = StyleSheet.create({
   rightContainer: {
     position: 'absolute',
     right: 50,
-    width: 300,
-    top: 150,
-    height: 200,
+    width: 200,
+    top: 180,
+    height: 180,
     borderWidth: 1,
     borderColor: '#333',
     margin: 10,
     flexDirection: 'row',
-    padding: 2
+    padding: 10
+  },
+  topContainer: {
+    flexDirection: 'row',
+    width: Dimensions.get('window').width / 1.1,
+    height: 80,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#333',
+    marginTop: 50,
+    marginLeft: 50
   },
   rightTextIput: {
     height: 50,
-    width: 260,
+    width: 180,
     borderColor: '#333',
     borderWidth: 1,
-    padding: 5,
+    padding: 10,
     backgroundColor: '#FFFFFF50',
     color: '#333',
     position: 'absolute',
-    top: 50,
-    right: 15
+    top: 20,
+    right: 10
   },
-  btnAddItem: {
+  topInput: {
+    height: 50,
+    width: 300,
+    borderColor: '#333',
+    borderWidth: 1,
+    padding: 10,
+    backgroundColor: '#FFFFFF50',
+    color: '#333',
+    marginRight: 20
+  },
+  btnSum: {
     position: 'absolute',
     bottom: 10,
-    right: 15,
+    right: 10,
     borderWidth: 1,
     borderColor: '#333',
     height: 50,
-    width: 260,
+    width: 180,
     alignItems: 'center',
-    paddingTop: 15
+    padding: 20
   }
 });
 
@@ -117,7 +137,6 @@ class Sum extends Component {
     super(props);
     this.state = {
       qty: 0,
-      status: false,
       sum: 0
     };
   }
@@ -168,42 +187,44 @@ class Sum extends Component {
   }
 
   _renderRight() {
-    if (this.state.status === false) {
-      return (
-        <View style={styles.rightContainer}>
-            <Text style={{paddingLeft: 80, paddingTop: 20}} >NHẬP VÀO SỐ CÂY</Text>
-            <TextInput keyboardType='numeric' style={[styles.rightTextIput]} placeholder='15' placeholderTextColor='#ccc' onChangeText={(qty) => this.setState({qty: parseInt(qty)})}/>
-            <TouchableOpacity onPress={this._handleButtonSum.bind(this)} style={styles.btnAddItem}>
-              <Text>TÍNH TỔNG</Text>
-            </TouchableOpacity>
-        </View>
-      );
-    } else {
-      return (
-        <View style={styles.rightContainer}>
-          <Text style={{paddingLeft: 80, paddingTop: 20}}>TỔNG KHỐI LƯỢNG</Text>
-          <TextInput keyboardType='numeric' style={[styles.rightTextIput, {marginTop: 20}]} placeholder='15' placeholderTextColor='#ccc' value={this.state.sum.toString()} />
-        </View>
-      );
-    }
+    return (
+      <View style={styles.rightContainer}>
+        <Text style={{flex: 1, fontWeight: 'bold', textAlign: 'center'}}>TỔNG KHỐI LƯỢNG</Text>
+        <TextInput keyboardType='numeric' style={[styles.rightTextIput, {marginTop: 20}]} placeholder='15' placeholderTextColor='#ccc' value={this.state.sum.toString()} />
+        <TouchableOpacity style={styles.btnSum} onPress={this._handleButtonSum.bind(this)}>
+          <Text>TÍNH TỔNG</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  _renderTop() {
+    return (
+      <View style={styles.topContainer}>
+        <Text style={{paddingTop: 20, textAlign: 'center', flex: 1, fontWeight: 'bold'}}>NHẬP VÀO SỐ CÂY</Text>
+        <View style={{flex: 1}}></View>
+        <TextInput style={styles.topInput} keyboardType='numeric' placeholder='15' placeholderTextColor='#ccc' onChangeText={(qty) => this.setState({qty: parseInt(qty)})}/>
+      </View>
+    );
   }
 
   render() {
     return (
-        <View>
-          <View style={styles.heading}>
-            <Text style={styles.headingTitle}>KIỂM TRA KHỐI LƯỢNG</Text>
-            <TouchableOpacity onPress={this._handleButtonBack.bind(this)} style={styles.btnBack}>
-              <Image source={btnBack} resizeMode={Image.resizeMode.contain}/>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.mainContainer}>
-            <ScrollView scrollEnabled={true} onScroll={() => { console.log('onScroll!'); }} scrollEventThrottle={200} style={styles.scrollView}>
-              {this._renderChild()}
-            </ScrollView>
-          </View>
-          {this._renderRight()}
+      <ScrollView>
+        <View style={styles.heading}>
+          <Text style={styles.headingTitle}>KIỂM TRA KHỐI LƯỢNG</Text>
+          <TouchableOpacity onPress={this._handleButtonBack.bind(this)} style={styles.btnBack}>
+            <Image source={btnBack} resizeMode={Image.resizeMode.contain}/>
+          </TouchableOpacity>
         </View>
+        {this._renderTop()}
+        <View style={styles.mainContainer}>
+          <ScrollView scrollEnabled={true} onScroll={() => { console.log('onScroll!'); }} scrollEventThrottle={200} style={styles.scrollView}>
+            {this._renderChild()}
+          </ScrollView>
+        </View>
+        {this._renderRight()}
+      </ScrollView>
     );
   }
 }

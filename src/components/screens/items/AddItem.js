@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   heading: {
     height: 30,
     paddingTop: 50,
-    paddingBottom: 50,
+    paddingBottom: 5,
     alignItems: 'center'
   },
   headingTitle: {
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     height: 50,
     marginLeft: 10,
     marginRight: 10,
-    marginTop: 50,
+    marginTop: 100,
     flexDirection: 'row'
   },
   widthContainer: {
@@ -123,18 +123,18 @@ const styles = StyleSheet.create({
   },
   btnAddItem: {
     position: 'absolute',
-    bottom: 0,
+    bottom: 5,
     right: 10,
     borderWidth: 1,
     borderColor: '#333',
-    height: 50,
+    height: 40,
     width: 100,
     alignItems: 'center',
-    paddingTop: 15
+    paddingTop: 10
   },
   btnBack: {
     position: 'absolute',
-    top: 50,
+    top: 30,
     right: 10,
     alignItems: 'center'
   }

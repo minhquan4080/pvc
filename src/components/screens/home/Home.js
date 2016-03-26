@@ -10,7 +10,6 @@ const {
 
 import Store from 'react-native-store';
 import bg from '../../img/background.jpg';
-import arrow from '../../img/arrow64.png';
 import smallArrow from '../../img/right-arrow.png';
 import { H1 } from './../../common/Heading';
 import Dimensions from 'Dimensions';
@@ -33,7 +32,7 @@ const styles = StyleSheet.create({
   heading: {
     flex: 1,
     position: 'absolute',
-    top: 100,
+    top: 50,
     left: 0,
     width: Dimensions.get('window').width / 1.2,
     alignItems: 'center'
@@ -46,7 +45,7 @@ const styles = StyleSheet.create({
   checkWeight: {
     flex: 1,
     position: 'absolute',
-    top: 350,
+    bottom: 180,
     left: 50,
     width: 200,
     height: 100,
@@ -139,16 +138,11 @@ class Home extends Component {
     this.props.navigator.replace({id: SELL_ITEM});
   }
 
-  _onPressBtnExit() {
-    console.log('_onPressBtnExit');
-  }
-
   _renderHeading() {
     return (
       <View style={styles.heading}>
-        <H1 labelStyles={styles.headingTitle}>Phần mềm quản</H1>
-        <H1 labelStyles={styles.headingTitle}>lý</H1>
-        <H1 labelStyles={styles.headingTitle}>Sản phẩm PVC</H1>
+        <H1 labelStyles={styles.headingTitle}>PHẦN MỀM QUẢN LÍ</H1>
+        <H1 labelStyles={styles.headingTitle}>SẢN PHẨM PVC</H1>
       </View>
     );
   }
@@ -191,15 +185,6 @@ class Home extends Component {
     );
   }
 
-  _renderButtonExit() {
-    return (
-      <TouchableOpacity style={styles.btnExit} onPress={this._onPressBtnExit.bind(this)}>
-        <Image source={arrow} resizeMode={Image.resizeMode.contain}/>
-        <Text style={styles.btnExitText}>Thoát</Text>
-      </TouchableOpacity>
-    );
-  }
-
   render() {
     return (
         <View style={styles.container}>
@@ -209,7 +194,6 @@ class Home extends Component {
           {this._renderAddItem()}
           {this._renderSellItem()}
           {this._renderCheckWeight()}
-          {this._renderButtonExit()}
           <View style={styles.smallArrow1}>
             <Image source={smallArrow} resizeMode={Image.resizeMode.contain}/>
           </View>
