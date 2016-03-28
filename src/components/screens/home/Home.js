@@ -13,6 +13,7 @@ import bg from '../../img/background.jpg';
 import smallArrow from '../../img/right-arrow.png';
 import { H1 } from './../../common/Heading';
 import Dimensions from 'Dimensions';
+import DeviceInfo from 'react-native-device-info';
 import {
   ADD_ITEM,
   SELL_ITEM,
@@ -186,6 +187,7 @@ class Home extends Component {
   }
 
   render() {
+    console.log(DeviceInfo.getModel());
     return (
         <View style={styles.container}>
           <Image source={bg} resizeMode={Image.resizeMode.contain}/>
