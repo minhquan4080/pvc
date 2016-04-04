@@ -1,6 +1,7 @@
 import React, {Component} from 'react-native';
 
 const {
+  ScrollView,
   View,
   StyleSheet,
   Text,
@@ -14,6 +15,7 @@ import Store from 'react-native-store';
 import btnBack from '../../img/btn_back.png';
 import Dimensions from 'Dimensions';
 import ButtonValue from './../../common/ButtonValueConfirm';
+import Device from 'react-native-device';
 import {
   SIZE_COLOR,
   WIDTH_COLOR,
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
     marginTop: 50
   },
   qtyContainer: {
-    width: Dimensions.get('window').width / 2.7,
+    width: Dimensions.get('window').width / 1.3,
     borderWidth: 1,
     borderColor: '#333',
     height: 40,
@@ -302,13 +304,25 @@ class ConfirmSellItem extends Component {
     );
   }
 
+  _renderButtonBack() {
+    if (Device.isIpad()) {
+      return (
+        <Image source={btnBack} resizeMode={Image.resizeMode.contain}/>
+      );
+    } else {
+      return (
+        <Image style={{width: 100, height: 40, top: 20}} source={btnBack} resizeMode={Image.resizeMode.contain}/>
+      );
+    }
+  }
+
   render() {
     return (
-        <View>
+        <ScrollView>
           <View style={styles.heading}>
             <Text style={styles.headingTitle}>BẠN ĐÃ BÁN SẢN PHẨM</Text>
             <TouchableOpacity onPress={this._handleButtonBack.bind(this)} style={styles.btnBack}>
-              <Image source={btnBack} resizeMode={Image.resizeMode.contain}/>
+              {this._renderButtonBack()}
             </TouchableOpacity>
           </View>
           {this._renderSizeContainer()}
@@ -318,7 +332,7 @@ class ConfirmSellItem extends Component {
           <TouchableOpacity onPress={this._handleButtonConfirmItem.bind(this)} style={styles.btnConfirmAddItem}>
             <Text style={{fontWeight: 'bold'}}>XÁC NHẬN</Text>
           </TouchableOpacity>
-        </View>
+        </ScrollView>
     );
   }
 }
