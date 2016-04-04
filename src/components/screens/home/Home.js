@@ -13,6 +13,7 @@ import bg from '../../img/background.jpg';
 import smallArrow from '../../img/right-arrow.png';
 import { H1 } from './../../common/Heading';
 import Dimensions from 'Dimensions';
+import Device from 'react-native-device';
 import {
   ADD_ITEM,
   SELL_ITEM,
@@ -25,7 +26,7 @@ const DB = {
   'sellitem': Store.model('sellitem'),
   'items': Store.model('items')
 };
-const styles = StyleSheet.create({
+const stylesIpad = StyleSheet.create({
   container: {
     flex: 1
   },
@@ -81,19 +82,6 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     paddingBottom: 60
   },
-  btnExit: {
-    flex: 1,
-    position: 'absolute',
-    right: 40,
-    top: 40
-  },
-  btnExitText: {
-    top: -62,
-    left: 15,
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#FFFFFF'
-  },
   smallArrow1: {
     flex: 1,
     position: 'absolute',
@@ -117,7 +105,96 @@ const styles = StyleSheet.create({
   }
 });
 
+const stylesIphone = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  heading: {
+    flex: 1,
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    width: Dimensions.get('window').width / 1.5,
+    alignItems: 'center'
+  },
+  headingTitle: {
+    color: '#FB8C00',
+    textAlign: 'center',
+    fontSize: 24
+  },
+  checkWeight: {
+    flex: 1,
+    position: 'absolute',
+    bottom: 80,
+    left: 20,
+    width: 150,
+    height: 70,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#81C784',
+    backgroundColor: '#81C784',
+    borderRadius: 10,
+    padding: 20
+  },
+  checkWeightTitle: {
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    fontSize: 13
+  },
+  circleButton: {
+    flex: 1,
+    position: 'absolute',
+    top: 20,
+    right: 160,
+    width: 120,
+    height: 120,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#FB8C00',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 60,
+    paddingTop: 40,
+    paddingBottom: 40
+  },
+  circleTitle: {
+    fontWeight: 'bold',
+    color: '#333333',
+    fontSize: 13
+  },
+  smallArrow1: {
+    flex: 1,
+    position: 'absolute',
+    right: 140,
+    top: 150,
+    transform: [{rotate: '45deg'}]
+  },
+  smallArrow2: {
+    flex: 1,
+    position: 'absolute',
+    right: 210,
+    top: 250,
+    transform: [{rotate: '180deg'}]
+  },
+  smallArrow3: {
+    flex: 1,
+    position: 'absolute',
+    right: 280,
+    top: 150,
+    transform: [{rotate: '135deg'}]
+  }
+});
+
+var styles;
+
 class Home extends Component {
+  componentWillMount() {
+    if (Device.isIpad()) {
+      styles = stylesIpad;
+    } else {
+      styles = stylesIphone;
+    }
+  }
+
   _onPressBtnCheckWeight() {
     console.log('_onPressBtnCheckWeight');
     this.props.navigator.replace({id: SUM});
@@ -170,19 +247,35 @@ class Home extends Component {
   }
 
   _renderAddItem() {
-    return (
-      <TouchableOpacity style={[styles.circleButton, {top: 400, right: 400, paddingTop: 90}]} onPress={this._onPressBtnAddItem.bind(this)}>
-        <Text style={[{marginTop: 5}, styles.circleTitle]}>NHẬP HÀNG</Text>
-      </TouchableOpacity>
-    );
+    if (Device.isIpad()) {
+      return (
+        <TouchableOpacity style={[styles.circleButton, {top: 400, right: 400, paddingTop: 90}]} onPress={this._onPressBtnAddItem.bind(this)}>
+          <Text style={[{marginTop: 5}, styles.circleTitle]}>NHẬP HÀNG</Text>
+        </TouchableOpacity>
+      );
+    } else {
+      return (
+        <TouchableOpacity style={[styles.circleButton, {top: 200, right: 20, paddingTop: 50}]} onPress={this._onPressBtnAddItem.bind(this)}>
+          <Text style={[{marginTop: 5}, styles.circleTitle]}>NHẬP HÀNG</Text>
+        </TouchableOpacity>
+      );
+    }
   }
 
   _renderSellItem() {
-    return (
-      <TouchableOpacity style={[styles.circleButton, {top: 400, right: 40, paddingTop: 90}]} onPress={this._onPressBtnSellItem.bind(this)}>
-        <Text style={[{marginTop: 5}, styles.circleTitle]}>BÁN HÀNG</Text>
-      </TouchableOpacity>
-    );
+    if (Device.isIpad()) {
+      return (
+        <TouchableOpacity style={[styles.circleButton, {top: 400, right: 40, paddingTop: 90}]} onPress={this._onPressBtnSellItem.bind(this)}>
+          <Text style={[{marginTop: 5}, styles.circleTitle]}>BÁN HÀNG</Text>
+        </TouchableOpacity>
+      );
+    } else {
+      return (
+        <TouchableOpacity style={[styles.circleButton, {top: 200, right: 320, paddingTop: 50}]} onPress={this._onPressBtnSellItem.bind(this)}>
+          <Text style={[{marginTop: 5}, styles.circleTitle]}>BÁN HÀNG</Text>
+        </TouchableOpacity>
+      );
+    }
   }
 
   render() {

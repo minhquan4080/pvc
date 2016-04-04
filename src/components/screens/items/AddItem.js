@@ -16,6 +16,7 @@ import smallArrow from '../../img/right-arrow.png';
 import btnBack from '../../img/btn_back.png';
 import Dimensions from 'Dimensions';
 import ButtonValue from './../../common/ButtonValue';
+import Device from 'react-native-device';
 import {
   SIZE_COLOR,
   WIDTH_COLOR,
@@ -309,13 +310,25 @@ class AddItem extends Component {
     );
   }
 
+  _renderButtonBack() {
+    if (Device.isIpad()) {
+      return (
+        <Image source={btnBack} resizeMode={Image.resizeMode.contain}/>
+      );
+    } else {
+      return (
+        <Image style={{width: 100, height: 40, top: 20}} source={btnBack} resizeMode={Image.resizeMode.contain}/>
+      );
+    }
+  }
+
   render() {
     return (
         <ScrollView>
           <View style={styles.heading}>
             <Text style={styles.headingTitle}>NHẬP HÀNG</Text>
             <TouchableOpacity onPress={this._handleButtonBack.bind(this)} style={styles.btnBack}>
-              <Image source={btnBack} resizeMode={Image.resizeMode.contain}/>
+              {this._renderButtonBack()}
             </TouchableOpacity>
           </View>
           {this._renderSizeContainer()}
