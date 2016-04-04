@@ -2,6 +2,7 @@
 
 ![iPhone Home Screen](https://cloud.githubusercontent.com/assets/9989471/14257602/c9264476-fac8-11e5-8d7e-21699da9cf1d.png)
 
+Some screens : https://github.com/thethanghn/pvc/wiki
 ## Installation
 
 ## Usage
