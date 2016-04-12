@@ -20,11 +20,12 @@ import {
   CHECK_QUANTITY,
   SUM
 } from './../../../constants/screens';
-
+var Firebase = require('firebase');
 const DB = {
   'insert': Store.model('insert'),
   'sellitem': Store.model('sellitem'),
-  'items': Store.model('items')
+  'items': Store.model('items'),
+  'update': Store.model('update')
 };
 const stylesIpad = StyleSheet.create({
   container: {
@@ -187,7 +188,53 @@ const stylesIphone = StyleSheet.create({
 var styles;
 
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    var myFirebaseRef = new Firebase('https://pvc-data-api.firebaseio.com');
+    this.itemsRef = myFirebaseRef.child('test');
+  }
+
   componentWillMount() {
+    var self = this;
+    DB.update.find().then(function(res) {
+      var last = res[res.length - 1];
+      console.log(last);
+      self.itemsRef.on('child_added', (dataSnapshot) => {
+        if (dataSnapshot.key() === 'update') {
+          if (dataSnapshot.val() < last.datetime) {
+            console.log('Update data to server');
+            DB.items.find().then(function(res) {
+              var api = new Firebase('https://pvc-data-api.firebaseio.com/test');
+              api.set({
+                items: res,
+                update: last.datetime,
+                author: 'Libra Nguyen',
+                app: 'PVC Manament'
+              });
+            });
+          } else if (dataSnapshot.val() > last.datetime) {
+            console.log('Update from server');
+            var api = new Firebase('https://pvc-data-api.firebaseio.com/test');
+            var data = api.child('items');
+            data.on('child_added', (dt) => {
+              var object = {
+                dataSize: dt.val().dataSize,
+                dataWidth: dt.val().dataWidth,
+                dataColor: dt.val().dataColor,
+                dataQty: dt.val().dataQty
+              };
+              DB.items.updateById(object, dt.val()._id).then(() => {});
+            });
+            const update = {
+              datetime: dataSnapshot.val()
+            };
+            DB.update.add(update).then(() => { console.log('Update successfully'); });
+          } else {
+            console.log('No changes');
+          }
+        }
+      });
+    });
     if (Device.isIpad()) {
       styles = stylesIpad;
     } else {
@@ -202,7 +249,6 @@ class Home extends Component {
 
   _onPressBtnCheckQty() {
     console.log('_onPressBtnCheckQty');
-    DB.items.find().then((resp) => console.log(resp));
     this.props.navigator.replace({id: CHECK_QUANTITY});
   }
 

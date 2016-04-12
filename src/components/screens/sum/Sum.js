@@ -12,6 +12,7 @@ const {
 
 import Dimensions from 'Dimensions';
 import btnBack from '../../img/btn_back.png';
+import Device from 'react-native-device';
 import {
   HOME
 } from './../../../constants/screens';
@@ -208,13 +209,25 @@ class Sum extends Component {
     );
   }
 
+  _renderButtonBack() {
+    if (Device.isIpad()) {
+      return (
+        <Image source={btnBack} resizeMode={Image.resizeMode.contain}/>
+      );
+    } else {
+      return (
+        <Image style={{width: 100, height: 40, top: 0}} source={btnBack} resizeMode={Image.resizeMode.contain}/>
+      );
+    }
+  }
+
   render() {
     return (
       <ScrollView>
         <View style={styles.heading}>
           <Text style={styles.headingTitle}>KIỂM TRA KHỐI LƯỢNG</Text>
           <TouchableOpacity onPress={this._handleButtonBack.bind(this)} style={styles.btnBack}>
-            <Image source={btnBack} resizeMode={Image.resizeMode.contain}/>
+            {this._renderButtonBack()}
           </TouchableOpacity>
         </View>
         {this._renderTop()}

@@ -28,7 +28,8 @@ import {
 
 const DB = {
   'sellitem': Store.model('sellitem'),
-  'items': Store.model('items')
+  'items': Store.model('items'),
+  'update': Store.model('update')
 };
 
 const styles = StyleSheet.create({
@@ -200,8 +201,13 @@ class ConfirmSellItem extends Component {
           if (qty <= currentQty) {
             console.log('qty < current');
             var newQty = currentQty - qty;
+            const update = {
+              datetime: Date.now()
+            };
             DB.items.updateById({dataQty: newQty}, currentId).then(() => {
-              self.props.navigator.replace({id: HOME});
+              DB.update.add(update).then(() => {
+                self.props.navigator.replace({id: HOME});
+              });
             });
             console.log('Item has been exits and it will updated');
           } else {
