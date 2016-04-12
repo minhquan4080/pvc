@@ -28,7 +28,8 @@ import {
 
 const DB = {
   'insert': Store.model('insert'),
-  'items': Store.model('items')
+  'items': Store.model('items'),
+  'update': Store.model('update')
 };
 
 const styles = StyleSheet.create({
@@ -186,8 +187,13 @@ class ConfirmAddItem extends Component {
         dataColor: this.state.dataColor,
         dataQty: this.state.dataQty
       };
+      const update = {
+        datetime: Date.now()
+      };
       DB.items.add(objectData).then(() => {
-        this.props.navigator.replace({id: HOME});
+        DB.update.add(update).then(() => {
+          this.props.navigator.replace({id: HOME});
+        });
       });
     }
   }
