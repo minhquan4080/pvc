@@ -20,6 +20,10 @@ import {
   CHECK_QUANTITY,
   SUM
 } from './../../../constants/screens';
+import {
+  BASE_URL,
+  ITEM_URL
+} from './../../../constants/firebase';
 var Firebase = require('firebase');
 const DB = {
   'insert': Store.model('insert'),
@@ -190,7 +194,7 @@ var styles;
 class Home extends Component {
   constructor(props) {
     super(props);
-    var myFirebaseRef = new Firebase('https://pvc-data-api.firebaseio.com');
+    var myFirebaseRef = new Firebase(BASE_URL);
     this.itemsRef = myFirebaseRef.child('test');
   }
 
@@ -204,7 +208,7 @@ class Home extends Component {
           if (dataSnapshot.val() < last.datetime) {
             console.log('Update data to server');
             DB.items.find().then(function(res) {
-              var api = new Firebase('https://pvc-data-api.firebaseio.com/test');
+              var api = new Firebase(ITEM_URL);
               api.set({
                 items: res,
                 update: last.datetime,
@@ -214,7 +218,7 @@ class Home extends Component {
             });
           } else if (dataSnapshot.val() > last.datetime) {
             console.log('Update from server');
-            var api = new Firebase('https://pvc-data-api.firebaseio.com/test');
+            var api = new Firebase(ITEM_URL);
             var data = api.child('items');
             data.on('child_added', (dt) => {
               var object = {
